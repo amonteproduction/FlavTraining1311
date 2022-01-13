@@ -94,6 +94,8 @@ package com.mcleodgaming.ssf2.engine
         private var m_horizontalRecoveryAttackList:Vector.<AttackObject>;
         private var m_recoveryAttackList:Vector.<AttackObject>;
         private var m_controlOverrides:Vector.<int>;
+		public var DIMode:String = ""; 
+		public var CPUShieldGrabbing:Boolean; 
 
         public function AI(level:int, player:Character, stageData:StageData)
         {
@@ -502,15 +504,20 @@ package com.mcleodgaming.ssf2.engine
                                 }
                                 else
                                 {
-                                    if (this.m_action == CPUState.INIT_SHIELD)
-                                    {
-                                        this.resetAllKeys();
-                                        this.m_keys.SHIELD = true;
-                                        this.m_action = CPUState.SHIELD;
-                                        this.m_shieldHoldTimer.MaxTime = Utils.randomInteger(10, 45);
-                                        this.m_dodgeTimer.MaxTime = Utils.randomInteger(10, 30);
-                                        this.m_shieldProjectile = false;
-                                    }
+									if(this.m_action == CPUState.INIT_SHIELD)
+										 {
+											this.resetAllKeys();
+											this.m_keys.SHIELD = true;
+											if(Character.AIShieldGrabCPU == 2 && AI.CPUShieldGrabbing)
+											{
+											   this.m_keys.BUTTON2 = true;
+											   Character.AIShieldGrabCPU = 0;
+											}
+											this.m_action = CPUState.SHIELD;
+											this.m_shieldHoldTimer.MaxTime = Utils.randomInteger(10,45);
+											this.m_dodgeTimer.MaxTime = Utils.randomInteger(10,30);
+											this.m_shieldProjectile = false;
+										 }
                                     else
                                     {
                                         if (this.m_action == CPUState.SHIELD)
@@ -1312,49 +1319,103 @@ package com.mcleodgaming.ssf2.engine
 
         private function checkDI():void
         {
-            if ((((((this.m_forceAction < 0) && (this.m_playerClassInstance.inState(CState.INJURED))) && (this.m_playerClassInstance.isHitStunOrParalysis())) && (this.m_target)) && (this.m_target.CurrentTarget)))
+         if(this.m_target && this.m_target.CurrentTarget && this.m_playerClassInstance.inState(CState.CAUGHT) || this.m_target && this.m_target.CurrentTarget && this.m_playerClassInstance.inState(CState.INJURED) || this.m_target && this.m_target.CurrentTarget && this.m_playerClassInstance.inState(CState.FLYING))
+         {
+            this.resetAllKeys();
+            this.jump();
+            this.m_keys.SHIELD = true;
+            if(AI.DIMode == "No DI")
             {
-                this.resetAllKeys();
-                if (this.m_target.CurrentTarget.X >= this.m_playerClassInstance.X)
-                {
-                    this.m_keys.LEFT = (!(this.m_keys_hist.LEFT));
-                };
-                if (this.m_target.CurrentTarget.X < this.m_playerClassInstance.X)
-                {
-                    this.m_keys.RIGHT = (!(this.m_keys_hist.RIGHT));
-                };
-                if (this.m_target.CurrentTarget.Y < this.m_playerClassInstance.Y)
-                {
-                    this.m_keys.DOWN = (!(this.m_keys_hist.DOWN));
-                };
-                if (this.m_target.CurrentTarget.Y >= this.m_playerClassInstance.Y)
-                {
-                    this.m_keys.UP = (!(this.m_keys_hist.UP));
-                };
+               AI.DIMode = "No DI";
+               this.m_keys.UP = false;
+               this.m_keys.LEFT = false;
+               this.m_keys.DOWN = false;
+               this.m_keys.RIGHT = false;
+            }
+            else if(AI.DIMode == "DI Up")
+            {
+               AI.DIMode = "DI Up";
+               this.m_keys.UP = true;
+               this.m_keys.LEFT = false;
+               this.m_keys.DOWN = false;
+               this.m_keys.RIGHT = false;
+            }
+            else if(AI.DIMode == "DI UpLeft")
+            {
+               AI.DIMode = "DI UpLeft";
+               this.m_keys.UP = true;
+               this.m_keys.LEFT = true;
+               this.m_keys.DOWN = false;
+               this.m_keys.RIGHT = false;
+            }
+            else if(AI.DIMode == "DI UpRight")
+            {
+               AI.DIMode = "DI UpRight";
+               this.m_keys.UP = true;
+               this.m_keys.LEFT = false;
+               this.m_keys.DOWN = false;
+               this.m_keys.RIGHT = true;
+            }
+            else if(AI.DIMode == "DI Down")
+            {
+               AI.DIMode = "DI Down";
+               this.m_keys.UP = false;
+               this.m_keys.LEFT = false;
+               this.m_keys.DOWN = true;
+               this.m_keys.RIGHT = false;
+            }
+            else if(AI.DIMode == "DI DownLeft")
+            {
+               AI.DIMode = "DI DownLeft";
+               this.m_keys.UP = false;
+               this.m_keys.LEFT = true;
+               this.m_keys.DOWN = true;
+               this.m_keys.RIGHT = false;
+            }
+            else if(AI.DIMode == "DI DownRight")
+            {
+               AI.DIMode = "DI DownRight";
+               this.m_keys.UP = false;
+               this.m_keys.LEFT = false;
+               this.m_keys.DOWN = true;
+               this.m_keys.RIGHT = true;
+            }
+            else if(AI.DIMode == "DI Left")
+            {
+               AI.DIMode = "DI Left";
+               this.m_keys.UP = false;
+               this.m_keys.LEFT = true;
+               this.m_keys.DOWN = false;
+               this.m_keys.RIGHT = false;
+            }
+            else if(AI.DIMode == "DI Right")
+            {
+               AI.DIMode = "DI Right";
+               this.m_keys.UP = false;
+               this.m_keys.LEFT = false;
+               this.m_keys.DOWN = false;
+               this.m_keys.RIGHT = true;
             }
             else
             {
-                if ((((((this.m_forceAction < 0) && (this.m_playerClassInstance.inState(CState.FLYING))) && (this.m_playerClassInstance.isHitStunOrParalysis())) && (this.m_target)) && (this.m_target.CurrentTarget)))
-                {
-                    this.resetAllKeys();
-                    if (this.m_target.CurrentTarget.X >= this.m_playerClassInstance.X)
-                    {
-                        this.m_keys.RIGHT = (!(this.m_keys_hist.RIGHT));
-                    };
-                    if (this.m_target.CurrentTarget.X < this.m_playerClassInstance.X)
-                    {
-                        this.m_keys.LEFT = (!(this.m_keys_hist.LEFT));
-                    };
-                    if (this.m_target.CurrentTarget.Y >= this.m_playerClassInstance.Y)
-                    {
-                        this.m_keys.DOWN = (!(this.m_keys_hist.DOWN));
-                    };
-                    if (this.m_target.CurrentTarget.Y < this.m_playerClassInstance.Y)
-                    {
-                        this.m_keys.UP = (!(this.m_keys_hist.UP));
-                    };
-                };
+               if(Utils.random() > 0.5)
+               {
+                  this.m_keys.LEFT = true;
+               }
+               else
+               {
+                  this.m_keys.RIGHT = true;
+               };
+               if(Utils.random() > 0.5)
+               {
+                  this.m_keys.DOWN = true;
+               }
+               else
+               {
+                  this.m_keys.UP = true;
+               };
             };
+         };
         }
 
         private function checkTaunt():void
@@ -1393,99 +1454,70 @@ package com.mcleodgaming.ssf2.engine
             };
         }
 
-        private function checkTech():void
-        {
-            var speed:Number;
-            var point1:Point;
-            var x_speed:Number;
-            var y_speed:Number;
-            var point2:Point;
-            if ((((this.m_forceAction < 0) && ((this.m_playerClassInstance.inState(CState.FLYING)) || (this.m_playerClassInstance.inState(CState.TUMBLE_FALL)))) && (this.execIfSmartEnough())))
+      private function checkTech() : void
+      {
+         var _loc1_:Number = NaN;
+         var _loc2_:Point = null;
+         var _loc3_:Number = NaN;
+         var _loc4_:Number = NaN;
+         var _loc5_:Point = null;
+         if(this.m_playerClassInstance.inState(CState.FLYING) || this.m_playerClassInstance.inState(CState.TUMBLE_FALL))
+         {
+            _loc1_ = this.m_playerClassInstance.netSpeed();
+            _loc2_ = new Point(this.m_playerClassInstance.X,this.m_playerClassInstance.Y);
+            _loc3_ = 0;
+            _loc4_ = 0;
+            _loc3_ = this.m_playerClassInstance.netXSpeed();
+            _loc4_ = this.m_playerClassInstance.netYSpeed();
+            _loc5_ = new Point(_loc2_.x + _loc3_,_loc2_.y + _loc4_ + 2);
+            if(!this.m_playerClassInstance.checkLinearPathBetweenPoints(_loc2_,_loc5_,false))
             {
-                speed = this.m_playerClassInstance.netSpeed();
-                if (((Utils.random() > (speed / 40)) && (Utils.LastRandom <= 1)))
-                {
-                    return;
-                };
-                point1 = new Point(this.m_playerClassInstance.X, this.m_playerClassInstance.Y);
-                x_speed = 0;
-                y_speed = 0;
-                x_speed = this.m_playerClassInstance.netXSpeed();
-                y_speed = this.m_playerClassInstance.netYSpeed();
-                point2 = new Point((point1.x + x_speed), ((point1.y + y_speed) + 2));
-                if (((!(this.m_playerClassInstance.checkLinearPathBetweenPoints(point1, point2, false))) && (!(this.m_keys.SHIELD))))
-                {
-                    if ((!(this.m_keys.SHIELD)))
-                    {
-                        this.resetAllKeys();
-                        if (Utils.random() > 0.25)
-                        {
-                            if (((((this.m_target) && (this.m_target.CurrentTarget)) && (this.m_target.CurrentTarget.X >= this.m_playerClassInstance.X)) || (Utils.random() < 0.5)))
-                            {
-                                this.m_keys.LEFT = true;
-                            }
-                            else
-                            {
-                                this.m_keys.RIGHT = true;
-                            };
-                        };
-                    };
-                    this.m_keys.SHIELD = true;
-                }
-                else
-                {
-                    this.m_keys.SHIELD = false;
-                };
-            };
-        }
-
-        private function checkGetup():void
-        {
-            if ((((this.m_forceAction < 0) && (this.m_playerClassInstance.inState(CState.CRASH_LAND))) && (this.execIfSmartEnough())))
+               if(!this.m_keys.SHIELD)
+               {
+                  this.resetAllKeys();
+                  if(Utils.random() > 0.25)
+                  {
+                     if(this.m_target && this.m_target.CurrentTarget && this.m_target.CurrentTarget.X >= this.m_playerClassInstance.X || Utils.random() < 0.5)
+                     {
+                        this.m_keys.LEFT = true;
+                     }
+                     else
+                     {
+                        this.m_keys.RIGHT = true;
+                     }
+                  }
+               }
+               this.m_keys.SHIELD = true;
+            }
+            else
             {
-                this.resetAllKeys();
-                this.getNearestOpponent();
-                if (((((!(this.m_target == null)) && (this.m_target.PlayerSprite)) && (this.m_target.Distance < 40)) && (this.execIfSmartEnough())))
-                {
-                    if (this.m_target.PlayerSprite.inState(CState.ATTACKING))
-                    {
-                        if (this.m_target.CurrentTarget.X > this.m_playerClassInstance.X)
-                        {
-                            this.m_keys.LEFT = true;
-                        }
-                        else
-                        {
-                            this.m_keys.RIGHT = true;
-                        };
-                    }
-                    else
-                    {
-                        this.m_keys.BUTTON2 = true;
-                    };
-                }
-                else
-                {
-                    if (((!(this.m_target == null)) && (this.m_target.CurrentTarget)))
-                    {
-                        if (((Utils.random() > 0.5) && (this.m_target.Distance > 90)))
-                        {
-                            this.m_keys.UP = true;
-                        }
-                        else
-                        {
-                            if (this.m_target.CurrentTarget.X > this.m_playerClassInstance.X)
-                            {
-                                this.m_keys.LEFT = true;
-                            }
-                            else
-                            {
-                                this.m_keys.RIGHT = true;
-                            };
-                        };
-                    };
-                };
-            };
-        }
+               this.m_keys.SHIELD = false;
+            }
+         }
+      }
+      
+      private function checkGetup() : void
+      {
+         if(this.m_playerClassInstance.inState(CState.CRASH_LAND))
+         {
+            this.resetAllKeys();
+            if(Utils.random() > 0.5)
+            {
+               if(Utils.random() > 0.75)
+               {
+                  this.m_keys.LEFT = true;
+               }
+               else
+               {
+                  this.m_keys.RIGHT = true;
+               }
+            }
+            else
+            {
+               this.m_keys.SHIELD = true;
+            }
+         }
+      }
 
         private function checkShortHop():void
         {

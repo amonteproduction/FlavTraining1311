@@ -27,6 +27,7 @@ package com.mcleodgaming.ssf2.menus
     import com.mcleodgaming.ssf2.util.*;
     import com.mcleodgaming.ssf2.controllers.*;
     import com.mcleodgaming.ssf2.engine.*;
+    import com.mcleodgaming.ssf2.engine.AI;
     import com.mcleodgaming.ssf2.audio.*;
     import __AS3__.vec.*;
 
@@ -55,6 +56,7 @@ package com.mcleodgaming.ssf2.menus
         private var m_hudNode:MenuMapperNode;
         private var m_resetNode:MenuMapperNode;
         private var m_finishNode:MenuMapperNode;
+		public var PermanantShieldCPU:Boolean;
 
         public function HudMenu()
         {
@@ -672,7 +674,7 @@ package com.mcleodgaming.ssf2.menus
             this.m_cpuAction--;
             if (this.m_cpuAction < -2)
             {
-                this.m_cpuAction = 5;
+                this.m_cpuAction = 18;
             };
             var p:int = 1;
             while (p < GameController.stageData.Players.length)
@@ -697,7 +699,7 @@ package com.mcleodgaming.ssf2.menus
         public function next_cpuAction_CLICK(e:MouseEvent):void
         {
             this.m_cpuAction++;
-            if (this.m_cpuAction > 5)
+            if (this.m_cpuAction > 18)
             {
                 this.m_cpuAction = -2;
             };
@@ -1006,72 +1008,232 @@ package com.mcleodgaming.ssf2.menus
             return (str);
         }
 
-        private function formatCPUAction(num:int):String
-        {
-            var str:String = "???";
-            switch (num)
-            {
-                case -2:
-                    str = "Human";
-                    break;
-                case -1:
-                    str = "Attack";
-                    break;
-                case 0:
-                    str = "Idle";
-                    break;
-                case 1:
-                    str = "Chase";
-                    break;
-                case 2:
-                    str = "Evade";
-                    break;
-                case 3:
-                    str = "Jump";
-                    break;
-                case 4:
-                    str = "Walk";
-                    break;
-                case 5:
-                    str = "Run";
-                    break;
-            };
-            return (str);
-        }
-
-        private function formatCPUActionShorthand(num:int):String
-        {
-            var str:String = "???";
-            switch (num)
-            {
-                case -2:
-                    str = "human";
-                    break;
-                case -1:
-                    str = "attack";
-                    break;
-                case 0:
-                    str = "idle";
-                    break;
-                case 1:
-                    str = "chase";
-                    break;
-                case 2:
-                    str = "evade";
-                    break;
-                case 3:
-                    str = "jump";
-                    break;
-                case 4:
-                    str = "walk";
-                    break;
-                case 5:
-                    str = "run";
-                    break;
-            };
-            return (str);
-        }
-
+      private function formatCPUAction(param1:int) : String
+      {
+         var _loc2_:String = "???";
+         if(param1 == -2)
+         {
+            _loc2_ = "Human";
+         }
+         else if(param1 == -1)
+         {
+            _loc2_ = "Attack";
+         }
+         else if(param1 == 0)
+         {
+            _loc2_ = "Idle";
+         }
+         else if(param1 == 1)
+         {
+            _loc2_ = "Chase";
+         }
+         else if(param1 == 2)
+         {
+            _loc2_ = "Evade";
+         }
+         else if(param1 == 3)
+         {
+            _loc2_ = "Jump";
+         }
+         else if(param1 == 4)
+         {
+            _loc2_ = "Walk";
+         }
+         else if(param1 == 5)
+         {
+            _loc2_ = "Run";
+         }
+         else if(param1 == 6)
+         {
+            _loc2_ = AI.DIMode;
+         }
+         else if(param1 == 7)
+         {
+            _loc2_ = AI.DIMode;
+         }
+         else if(param1 == 8)
+         {
+            _loc2_ = AI.DIMode;
+         }
+         else if(param1 == 9)
+         {
+            _loc2_ = AI.DIMode;
+         }
+         else if(param1 == 10)
+         {
+            _loc2_ = AI.DIMode;
+         }
+         else if(param1 == 11)
+         {
+            _loc2_ = AI.DIMode;
+         }
+         else if(param1 == 12)
+         {
+            _loc2_ = AI.DIMode;
+         }
+         else if(param1 == 13)
+         {
+            _loc2_ = AI.DIMode;
+         }
+         else if(param1 == 14)
+         {
+            _loc2_ = AI.DIMode;
+         }
+         else if(param1 == 15)
+         {
+            _loc2_ = "Shield (Hold)";
+         }
+         else if(param1 == 16)
+         {
+            _loc2_ = "Infinite Shield (Hold)";
+         }
+         else if(param1 == 17)
+         {
+            _loc2_ = "Shield (Grab)";
+         }
+         else if(param1 == 18)
+         {
+            _loc2_ = "InfiniteShieldGrab";
+         }
+         return _loc2_;
+      }
+      
+      private function formatCPUActionShorthand(param1:int) : String
+      {
+         var _loc2_:String = "???";
+         if(param1 == -2)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "Random";
+            _loc2_ = "human";
+         }
+         else if(param1 == -1)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "Random";
+            _loc2_ = "attack";
+         }
+         else if(param1 == 0)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "Random";
+            _loc2_ = "idle";
+         }
+         else if(param1 == 1)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "Random";
+            _loc2_ = "chase";
+         }
+         else if(param1 == 2)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "Random";
+            _loc2_ = "evade";
+         }
+         else if(param1 == 3)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "Random";
+            _loc2_ = "jump";
+         }
+         else if(param1 == 4)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "Random";
+            _loc2_ = "walk";
+         }
+         else if(param1 == 5)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "Random";
+            _loc2_ = "run";
+         }
+         else if(param1 == 6)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "No DI";
+            _loc2_ = "idle";
+         }
+         else if(param1 == 7)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "DI Up";
+            _loc2_ = "idle";
+         }
+         else if(param1 == 8)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "DI Down";
+            _loc2_ = "idle";
+         }
+         else if(param1 == 9)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "DI Left";
+            _loc2_ = "idle";
+         }
+         else if(param1 == 10)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "DI Right";
+            _loc2_ = "idle";
+         }
+         else if(param1 == 11)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "DI UpLeft";
+            _loc2_ = "idle";
+         }
+         else if(param1 == 12)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "DI UpRight";
+            _loc2_ = "idle";
+         }
+         else if(param1 == 13)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "DI DownLeft";
+            _loc2_ = "idle";
+         }
+         else if(param1 == 14)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.DIMode = "DI DownRight";
+            _loc2_ = "idle";
+         }
+         else if(param1 == 15)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.CPUShieldGrabbing = false;
+            AI.DIMode = "Random";
+            _loc2_ = "init. shield";
+         }
+         else if(param1 == 16)
+         {
+            HudMenu.PermanantShieldCPU = true;
+            AI.CPUShieldGrabbing = false;
+            AI.DIMode = "Random";
+            _loc2_ = "init. shield";
+         }
+         else if(param1 == 17)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.CPUShieldGrabbing = true;
+            AI.DIMode = "Random";
+            _loc2_ = "init. shield";
+         }
+         else if(param1 == 18)
+         {
+            HudMenu.PermanantShieldCPU = true;
+            AI.CPUShieldGrabbing = true;
+            AI.DIMode = "Random";
+            _loc2_ = "init. shield";
+         }
+         return _loc2_;
+      }
+	  
         public function updateCPUDamage():void
         {
             if (((GameController.stageData.GameRef.GameMode == Mode.TRAINING) && (this.m_cpuDamageMouseDown)))

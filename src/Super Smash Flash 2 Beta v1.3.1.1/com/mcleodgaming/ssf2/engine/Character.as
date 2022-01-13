@@ -46,6 +46,7 @@ package com.mcleodgaming.ssf2.engine
     import com.mcleodgaming.ssf2.controllers.MenuController;
     import com.mcleodgaming.ssf2.util.SaveData;
     import com.mcleodgaming.ssf2.audio.SoundObject;
+    import com.mcleodgaming.ssf2.menus.HudMenu;
     import com.mcleodgaming.ssf2.util.*;
     import com.mcleodgaming.ssf2.enums.*;
     import com.mcleodgaming.ssf2.audio.*;
@@ -352,6 +353,7 @@ package com.mcleodgaming.ssf2.engine
         private var CPU:AI;
         private var m_attackControlsArr:Vector.<int>;
         private var dragging:Boolean;
+		public var AIShieldGrabCPU:int = 0;
 
         public function Character(stats:CharacterData, parameters:PlayerSetting, stageData:StageData)
         {
@@ -13849,6 +13851,10 @@ package com.mcleodgaming.ssf2.engine
                 {
                     tempDamage = 1;
                 };
+		if(!HudMenu.PermanantShieldCPU || MultiplayerManager.Connected)
+            {
+               this.m_shieldPower -= tempDamage * 0.7 * 2;
+            }
                 if (((attackObj.HasEffect) || ((!(attackObj.HasEffect)) && (attackObj.Owner as Projectile))))
                 {
                     if (this.m_shieldStartTimer < 1)
@@ -13863,7 +13869,7 @@ package com.mcleodgaming.ssf2.engine
                 };
                 if ((!(this.PerfectShield)))
                 {
-                    this.m_shieldPower = (this.m_shieldPower - ((tempDamage * 0.7) * 2));
+                   // this.m_shieldPower = (this.m_shieldPower - ((tempDamage * 0.7) * 2));
                     angle = Utils.calculateAttackDirection(attackObj, this);
                     pushBack = Math.min(20, ((this.m_characterStats.Stamina > 0) ? (Utils.calculateVelocity(Utils.calculateKnockback(attackObj.KBConstant, attackObj.Power, attackObj.WeightKB, 0, 0, (this.m_characterStats.Weight1 * weight1Multiplier), false, this.m_characterStats.DamageRatio, attackObj.AttackRatio))) : (Utils.calculateVelocity(Utils.calculateKnockback(attackObj.KBConstant, attackObj.Power, attackObj.WeightKB, preDamage, m_damage, (this.m_characterStats.Weight1 * weight1Multiplier), false, this.m_characterStats.DamageRatio, attackObj.AttackRatio)))));
                     m_xKnockback = Utils.calculateXSpeed((pushBack * 0.35), angle);
@@ -13919,6 +13925,11 @@ package com.mcleodgaming.ssf2.engine
                     stunAmount = Utils.calculateHitStun(attackObj.HitStun, tempDamage, attackObj.Shock, false);
                     if ((!(this.PerfectShield)))
                     {
+					      if(attackObj.HasEffect && !MultiplayerManager.Connected)
+								  {
+									 setBrightness(200);
+								  }
+								  Character.AIShieldGrabCPU = 1;	
                         this.m_shieldDelayTimer.reset();
                         this.m_shieldDelayTimer.MaxTime = Math.floor(((Math.round(((Utils.calculateChargeDamage(attackObj) + 4.45) / 2.235)) * attackObj.ShieldStunMultiplier) / 2));
                         this.m_lastHitStun = this.m_shieldDelayTimer.MaxTime;
@@ -15594,6 +15605,10 @@ package com.mcleodgaming.ssf2.engine
         {
             if (((!(isHitStunOrParalysis())) && (this.m_hitLag > 0)))
             {
+				            if(!MultiplayerManager.Connected)
+            {
+               setTint(1.6,1,1,1,255,40,0,0);
+            }
                 this.m_hitLag--;
                 this.m_hitLagStunTimer.tick();
                 if (((((m_collision.ground) && (inState(CState.INJURED))) && (this.netYSpeed() >= 0)) && (!(this.m_hitLagLandDelay.IsComplete))))
@@ -15603,6 +15618,10 @@ package com.mcleodgaming.ssf2.engine
             }
             else
             {
+					if(!inState(CState.SHIELDING) && !MultiplayerManager.Connected)
+					{
+					   setTint(1,1,1,1,0,0,0,0);
+					}
                 if (((!(isHitStunOrParalysis())) && (this.m_hitLag <= 0)))
                 {
                     this.m_hitLagLandDelay.finish();
@@ -16266,7 +16285,18 @@ package com.mcleodgaming.ssf2.engine
             {
                 if ((((this.m_shieldDelay > 5) && (!(isHitStunOrParalysis()))) && (this.m_shieldDelayTimer.IsComplete)))
                 {
-                    this.m_shieldPower = (this.m_shieldPower - (0.56 * 2));
+               if(!MultiplayerManager.Connected)
+               {
+                  setBrightness(0);
+               }
+               if(Character.AIShieldGrabCPU == 1)
+               {
+                  Character.AIShieldGrabCPU = 2;
+               }
+               if(!HudMenu.PermanantShieldCPU || MultiplayerManager.Connected)
+               {
+                  this.m_shieldPower -= 0.56 * 2;
+               }
                 };
                 this.m_resizeShield();
                 if (this.m_shieldPower <= 0)
