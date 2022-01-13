@@ -63,6 +63,7 @@ package com.mcleodgaming.ssf2.engine
     import com.mcleodgaming.ssf2.menus.MatchResultsMenu;
     import com.mcleodgaming.ssf2.util.ControlsObject;
     import com.mcleodgaming.ssf2.items.Item;
+	import com.pecefulmods.TrainingHUD;
     import com.mcleodgaming.ssf2.assists.AssistTrophy;
     import com.mcleodgaming.ssf2.controllers.MatchResults;
     import com.mcleodgaming.ssf2.util.*;
@@ -224,6 +225,7 @@ package com.mcleodgaming.ssf2.engine
         private var m_playerStartIndices:Array;
         private var m_logText:String;
         private var m_collisionsEnabled:Boolean;
+		public var m_trainingHud:TrainingHUD;
 
         public function StageData(controllers:Vector.<Controller>, root:MovieClip, stageAPI:Class, stageMC:MovieClip, hud:HudMenu, camParam:VcamSettings, game:Game, soundQueue:SoundQueue, music:String, loopLoc:Number)
         {
@@ -480,6 +482,7 @@ package com.mcleodgaming.ssf2.engine
             this.m_totalPausedTime = 0;
             this.ITEMGENS = new Vector.<MovieClip>();
             this.m_nullPlayers = new Array();
+			this.m_trainingHud = new TrainingHUD(this);
             if (ModeFeatures.hasFeature(ModeFeatures.FILL_PLAYER_SLOTS, this.GAME.GameMode))
             {
                 firstChar = null;
