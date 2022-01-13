@@ -68,7 +68,7 @@ package com.mcleodgaming.ssf2.controllers
             this.hazards = true;
             this.specialModes = 0;
             this.randSeed = 0;
-            this.inputBuffer = 0;
+            this.inputBuffer = 3;
             this.scoreLimit = SaveData.getSavedVSOptions().scoreLimit;
             this.difficulty = Difficulty.NORMAL;
             this.showEntrances = true;
