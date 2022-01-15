@@ -674,7 +674,7 @@ package com.mcleodgaming.ssf2.menus
             this.m_cpuAction--;
             if (this.m_cpuAction < -2)
             {
-                this.m_cpuAction = 18;
+                this.m_cpuAction = 19;
             };
             var p:int = 1;
             while (p < GameController.stageData.Players.length)
@@ -699,7 +699,7 @@ package com.mcleodgaming.ssf2.menus
         public function next_cpuAction_CLICK(e:MouseEvent):void
         {
             this.m_cpuAction++;
-            if (this.m_cpuAction > 18)
+            if (this.m_cpuAction > 19)
             {
                 this.m_cpuAction = -2;
             };
@@ -1093,8 +1093,12 @@ package com.mcleodgaming.ssf2.menus
          }
          else if(param1 == 18)
          {
-            _loc2_ = "Laser Practice";
+            _loc2_ = "InfiniteShieldGrab";
          }
+         else if(param1 == 19)
+         {
+            _loc2_ = "Laser Practice";
+         }		 
          return _loc2_;
       }
       
@@ -1229,8 +1233,15 @@ package com.mcleodgaming.ssf2.menus
             HudMenu.PermanantShieldCPU = true;
             AI.CPUShieldGrabbing = true;
             AI.DIMode = "Random";
-            _loc2_ = "falco laser practice";
+            _loc2_ = "init. shield";
          }
+         else if(param1 == 19)
+         {
+            HudMenu.PermanantShieldCPU = false;
+            AI.CPUShieldGrabbing = false;			 
+            AI.DIMode = "Random";
+            _loc2_ = "falco laser practice";
+         }		 
          return _loc2_;
       }
 	  
