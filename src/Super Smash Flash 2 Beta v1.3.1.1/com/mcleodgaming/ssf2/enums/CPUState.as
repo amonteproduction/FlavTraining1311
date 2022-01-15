@@ -23,6 +23,7 @@ package com.mcleodgaming.ssf2.enums
         public static const FORCE_WALK:int = 11;
         public static const FORCE_RUN:int = 12;
         public static const FORCE_DO_NOTHING:int = 13;
+        public static const FALCO_LASER_PRACTICE:int = 14;
         private static var statesArr:Array = new Array();
 
         {
@@ -40,7 +41,8 @@ package com.mcleodgaming.ssf2.enums
             statesArr.push("FORCE_WALK");
             statesArr.push("FORCE_RUN");
             statesArr.push("FORCE_DO_NOTHING");
-        }
+            statesArr.push("FALCO_LASER_PRACTICE");
+			}
 
 
         public static function toString(state:int):String

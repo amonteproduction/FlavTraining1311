@@ -1093,7 +1093,7 @@ package com.mcleodgaming.ssf2.menus
          }
          else if(param1 == 18)
          {
-            _loc2_ = "InfiniteShieldGrab";
+            _loc2_ = "Laser Practice";
          }
          return _loc2_;
       }
@@ -1229,7 +1229,7 @@ package com.mcleodgaming.ssf2.menus
             HudMenu.PermanantShieldCPU = true;
             AI.CPUShieldGrabbing = true;
             AI.DIMode = "Random";
-            _loc2_ = "init. shield";
+            _loc2_ = "falco laser practice";
          }
          return _loc2_;
       }

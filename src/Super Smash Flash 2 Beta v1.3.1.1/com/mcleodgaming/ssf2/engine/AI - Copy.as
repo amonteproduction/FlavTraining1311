@@ -514,18 +514,26 @@ package com.mcleodgaming.ssf2.engine
 									if(this.m_action == CPUState.FALCO_LASER_PRACTICE)
 										 {
 											this.resetAllKeys();
-											if(!this.m_falcoTimer1.IsComplete){
-											this.jump();
+											this.m_keys.JUMP = true;
 											this.m_falcoTimer1.tick();
-											}
-											if(this.m_falcoTimer1.IsComplete){
-											this.m_keys.JUMP = false;
+											if(this.m_falcoTimer1.isComplete){
+											this.resetAllKeys();
 											this.m_keys.BUTTON1 = true;
-											this.m_falcoTimer2.tick();
+											this.falcoTimer3.reset();
+											this.falcoTimer2.reset();
+											this.falcoTimer3.tick;
+											this.falcoTimer2.tick;
 											}
-											if(this.m_falcoTimer2.IsComplete){
+											if(this.m_falcoTimer3.isComplete){
+											this.resetAllKeys();
+											this.m_keys.DOWN = true;
+											this.m_keys.DOWN = true;	
+											}
+											if(this.m_falcoTimer2.isComplete){
+											this.resetAllKeys();;
+											this.m_keys.JUMP = true;
 											this.m_falcoTimer1.reset();
-											this.m_falcoTimer2.reset();
+											this.m_falcoTimer1.tick();
 											}
 										 }
                                 else
@@ -638,8 +646,7 @@ package com.mcleodgaming.ssf2.engine
                                                         };
                                                     };
                                                 };
-												};
-											};
+                                            };
                                         };
                                     };
                                 };
