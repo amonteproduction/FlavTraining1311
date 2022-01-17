@@ -60,7 +60,8 @@ package com.mcleodgaming.ssf2.engine
         private var m_falcoTimer1:FrameTimer;
         private var m_falcoTimer2:FrameTimer;
 		private var m_falcoTimer3:FrameTimer;
-        private var m_evadeOverrideTimer:FrameTimer;
+		private var m_marthtimer:FrameTimer;
+		private var m_evadeOverrideTimer:FrameTimer;
         private var m_jumpTimer:FrameTimer;
         private var m_idleTimer:FrameTimer;
         private var m_runTimer:FrameTimer;
@@ -135,7 +136,8 @@ package com.mcleodgaming.ssf2.engine
 			this.m_falcoTimer1 = new FrameTimer(5);
 			this.m_falcoTimer2 = new FrameTimer(15);
 			this.m_falcoTimer3 = new FrameTimer(1);
-            this.m_evadeOverrideTimer = new FrameTimer(30);
+			this.m_marthtimer = new FrameTimer(
+			this.m_evadeOverrideTimer = new FrameTimer(30);
             this.m_beaconTimer = new FrameTimer(150);
             this.m_jumpTimer = new FrameTimer(5);
             this.m_runTimer = new FrameTimer(10);
@@ -430,6 +432,7 @@ package com.mcleodgaming.ssf2.engine
             arr[12] = "run";
             arr[13] = "force do nothing";
 			arr[14] = "falco laser practice";
+			arr[15] = "marthkiller";
             return (arr);
         }
 
@@ -528,6 +531,18 @@ package com.mcleodgaming.ssf2.engine
 											this.m_falcoTimer2.reset();
 											}
 										 }
+							else
+                                {
+									if(this.m_action == CPUState.MARTH_KILLER)
+										 {
+											this.m_action = CPUState.MARTH_KILLER; 
+											this.m_marthtimer.tick();
+											if(this.m_marthtimer.IsComplete){
+											this.m_keys.UP = true;
+											this.m_keys.BUTTON1 = true;
+											}
+											this.m_marthtimer.reset();
+										 }				 
                                 else
                                 {
 									if(this.m_action == CPUState.INIT_SHIELD)
@@ -641,6 +656,7 @@ package com.mcleodgaming.ssf2.engine
 												};
 											};
                                         };
+									};
                                     };
                                 };
                             };
@@ -3102,7 +3118,7 @@ package com.mcleodgaming.ssf2.engine
             {
                 this.m_keys.RIGHT = true;
                 this.m_keys.LEFT = false;
-                this.m_recovering = true;
+                this.m_recovering = (!this.m_action == CPUState.MARTH_KILLER);					
                 if (this.m_playerClassInstance.CollisionObj.lbound_lower)
                 {
                     this.m_finalRecovery = true;

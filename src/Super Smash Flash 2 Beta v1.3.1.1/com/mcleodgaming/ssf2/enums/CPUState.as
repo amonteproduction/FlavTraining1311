@@ -24,7 +24,7 @@ package com.mcleodgaming.ssf2.enums
         public static const FORCE_RUN:int = 12;
         public static const FORCE_DO_NOTHING:int = 13;
         public static const FALCO_LASER_PRACTICE:int = 14;
-        public static const MARTHKILLER:int = 15;
+        public static const MARTH_KILLER:int = 15;
 		
         private static var statesArr:Array = new Array();
 
@@ -44,7 +44,7 @@ package com.mcleodgaming.ssf2.enums
             statesArr.push("FORCE_RUN");
             statesArr.push("FORCE_DO_NOTHING");
             statesArr.push("FALCO_LASER_PRACTICE");
-			statesArr.push("MARTHKILLER");
+			statesArr.push("MARTH_KILLER");
 			}
 
 
