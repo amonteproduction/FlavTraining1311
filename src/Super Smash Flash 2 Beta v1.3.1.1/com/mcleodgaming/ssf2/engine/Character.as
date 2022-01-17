@@ -18473,6 +18473,18 @@ package com.mcleodgaming.ssf2.engine
             };
         }
 
+        public function fliplocation(facing:Boolean):void
+        {
+            if ((!(facing)))
+            {
+                m_faceLeft();
+            }
+            else
+            {
+                m_faceRight();
+            };
+        }
+
 
     }
 }//package com.mcleodgaming.ssf2.engine

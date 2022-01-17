@@ -12,7 +12,7 @@
 		import com.mcleodgaming.ssf2.net.MultiplayerManager;
 
 		private var m_stage:StageData;
-		private var char_position:Object =  new Object();
+		private var char_position:Object = new Object();
 		private var setsave:Boolean = false;
 		public static var BETA_ON:Boolean = true;
 		
@@ -32,16 +32,23 @@
 				{
 					 //Set 
 					 
-					char_position.scalev = m_stage.Players[0].getScale();
-					char_position.dam = m_stage.Players[0].getDamage() ;
-					char_position.x = m_stage.Players[0].X;
-					char_position.y = m_stage.Players[0].Y;
-					 
-					char_position.scale1 = m_stage.Players[1].getScale();
-					char_position.dam1 = m_stage.Players[1].getDamage();
-					char_position.x1 = m_stage.Players[1].X;
-					char_position.y1 = m_stage.Players[1].Y;
-					char_position.state = m_stage.Players[1].getState() ;
+					for (var i:int = 0; i < 2 ; i++)
+					{
+						var obj_str:String = "_" + i.toString();
+						trace(obj_str);
+						char_position["scale" + obj_str] = m_stage.Players[i].getScale();
+						char_position["dam" + obj_str]   = m_stage.Players[i].getDamage() ;
+						char_position["x" + obj_str] 	 = m_stage.Players[i].X;
+						char_position["y" + obj_str] 	 = m_stage.Players[i].Y;
+						
+						char_position["facingForward" + obj_str] = m_stage.Players[i].FacingForward;
+						
+						
+						
+					}
+					
+
+	
 					setsave = true;
 				  	MultiplayerManager.notify("Saved position");
 				};
@@ -52,20 +59,23 @@
 					 {
 						 return;
 					 }
-					 
-					 m_stage.Players[0].setScale(char_position.scalev.x,char_position.scalev.y);
-					 m_stage.Players[0].setPosition(char_position.x,char_position.y);
-					 m_stage.Players[0].setDamage(char_position.dam);
-					 
-					 m_stage.Players[1].setScale(char_position.scale1.x,char_position.scale1.y);
-					 m_stage.Players[1].setDamage(char_position.dam1);
-					 m_stage.Players[1].setPosition(char_position.x1,char_position.y1);
-					 m_stage.Players[1].setState(char_position.state);
+
+					for (var i:int = 0; i < 2 ; i++)
+					{
+						obj_str = "_" + i;
+						m_stage.Players[i].setScale(char_position["scale"  + obj_str].x, char_position["scale"  + obj_str].y);
+						m_stage.Players[i].setDamage(char_position["dam" + obj_str]);
+						m_stage.Players[i].setPosition(char_position["x" + obj_str], char_position["y" + obj_str]);
+						m_stage.Players[i].fliplocation(char_position["facingForward" + obj_str]);
+						//m_stage.Players[i].CharacterStats.importData(char_position["data" + obj_str]);
+					}
+
+					 //m_stage.Players[1].setState(char_position.state);
 					 MultiplayerManager.notify("Loaded position");
+
+					
 				};
 			}
-
-
 			
 		}
 
