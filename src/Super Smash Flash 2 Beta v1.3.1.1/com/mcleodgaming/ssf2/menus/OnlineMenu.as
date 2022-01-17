@@ -136,7 +136,8 @@ package com.mcleodgaming.ssf2.menus
                 "label":"High",
                 "value":4
             });
-            this.m_bufferDropdown.selectedItem = this.m_bufferDropdown.getItemAt(2);
+            this.m_bufferDropdown.selectedItem = this.m_bufferDropdown.getItemAt(1);
+
             this.m_battleTypeDropdown.addItem({
                 "label":"N/A",
                 "value":"n/a"
@@ -982,6 +983,8 @@ package com.mcleodgaming.ssf2.menus
         {
             SoundQueue.instance.playSoundEffect("menu_selectstage");
             m_subMenu.onlinebg.visible = true;
+            m_subMenu.online_makeroom.createRoom_txt.text = "wanna play";
+            m_subMenu.online_makeroom.roomPass_txt.text = "gg";
             m_subMenu.online_makeroom.visible = true;
         }
 

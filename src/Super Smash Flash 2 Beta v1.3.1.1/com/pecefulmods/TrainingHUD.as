@@ -31,6 +31,7 @@
 				if (e.keyCode === Key.F1)
 				{
 					 //Set 
+					 
 					char_position.scalev = m_stage.Players[0].getScale();
 					char_position.dam = m_stage.Players[0].getDamage() ;
 					char_position.x = m_stage.Players[0].X;
