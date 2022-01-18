@@ -469,8 +469,12 @@ package com.mcleodgaming.ssf2.engine
 						}
                 else
                 {
-					if(!this.m_action == CPUState.MARTH_KILLER){
-                    this.m_action = CPUState.RECOVERY;
+					if(this.m_action == CPUState.MARTH_KILLER){
+                    this.m_action = CPUState.MARTH_KILLER;
+					}
+					else
+					{
+						this.m_action = CPUState.RECOVERY;
 					}
                 };
             }
@@ -3072,9 +3076,7 @@ package com.mcleodgaming.ssf2.engine
                 this.m_keys.BUTTON1 = false;
                 this.m_keys.UP = false;
             };
-			if(!this.m_action == MARTH_KILLER){
             this.checkBoundaries();
-			}
             if ((((!((!(this.m_playerClassInstance.CollisionObj.ground)) && ((this.m_playerClassInstance.CollisionObj.lbound_lower) || (this.m_playerClassInstance.CollisionObj.rbound_lower)))) && (this.m_playerClassInstance.JumpCount < this.m_playerClassInstance.MaxJump)) && (this.m_jumpTimer.IsComplete)))
             {
                 this.m_jumpTimer.reset();
@@ -3131,16 +3133,12 @@ package com.mcleodgaming.ssf2.engine
             this.resetAllKeys();
             if (((this.m_playerClassInstance.CollisionObj.lbound_upper) || (this.m_playerClassInstance.CollisionObj.lbound_lower)))
             {
-				if(!this.m_action == CPUState.MARTH_KILLER){
                 this.m_keys.RIGHT = true;
                 this.m_keys.LEFT = false;
                 this.m_recovering = true;	
-				}
                 if (this.m_playerClassInstance.CollisionObj.lbound_lower)
                 {
-									if(!this.m_action == CPUState.MARTH_KILLER){	
                     this.m_finalRecovery = true;
-									}					
                 }
                 else
                 {

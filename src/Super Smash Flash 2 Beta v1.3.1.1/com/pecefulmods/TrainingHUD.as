@@ -32,7 +32,7 @@
 				{
 					 //Set 
 					 
-					for (var i:int = 0; i < 2 ; i++)
+					for (i = 0; i < 2 ; i++)
 					{
 						var obj_str:String = "_" + i.toString();
 						trace(obj_str);
@@ -60,7 +60,7 @@
 						 return;
 					 }
 
-					for (var i:int = 0; i < 2 ; i++)
+					for (i = 0; i < 2 ; i++)
 					{
 						obj_str = "_" + i;
 						m_stage.Players[i].setScale(char_position["scale"  + obj_str].x, char_position["scale"  + obj_str].y);
