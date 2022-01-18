@@ -393,7 +393,7 @@ package com.mcleodgaming.ssf2.engine
             tmpMC.uid = m_uid;
 			if(STAGEDATA.GameRef.GameMode == Mode.EVENT && this.m_playerSettings.character == "marth" && this.m_playerSettings.costume == 3 ) {
             m_sprite.x = 85;
-            m_sprite.y = 1486;
+            m_sprite.y = 86;
 			}
 			else{
 			m_sprite.x = this.m_playerSettings.x_start;
