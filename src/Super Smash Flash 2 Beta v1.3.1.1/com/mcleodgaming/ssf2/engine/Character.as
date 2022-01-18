@@ -1879,7 +1879,19 @@ package com.mcleodgaming.ssf2.engine
         {
             return (this.m_hatMC);
         }
-
+		
+        public function fliplocation(facing:Boolean):void
+        {
+            if ((!(facing)))
+            {
+                m_faceLeft();
+            }
+            else
+            {
+                m_faceRight();
+            };
+        }
+		
         public function set KirbyPower(value:String):void
         {
             var i:int;
