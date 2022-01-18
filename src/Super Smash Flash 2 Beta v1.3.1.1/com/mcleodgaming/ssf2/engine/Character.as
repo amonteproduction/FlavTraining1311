@@ -391,8 +391,14 @@ package com.mcleodgaming.ssf2.engine
             m_state = CState.IDLE;
             tmpMC.player_id = m_player_id;
             tmpMC.uid = m_uid;
-            m_sprite.x = this.m_playerSettings.x_start;
+			if(STAGEDATA.GameRef.GameMode == Mode.EVENT && this.m_playerSettings.character == "marth" && this.m_playerSettings.costume == 3 ) {
+            m_sprite.x = 85;
+            m_sprite.y = 86;
+			}
+			else{
+			m_sprite.x = this.m_playerSettings.x_start;
             m_sprite.y = this.m_playerSettings.y_start;
+			}
             m_sizeRatio = stageData.GameRef.SizeRatio;
             this.m_originalSizeRatio = m_sizeRatio;
             m_sprite.width = (m_sprite.width * m_sizeRatio);
@@ -1873,7 +1879,19 @@ package com.mcleodgaming.ssf2.engine
         {
             return (this.m_hatMC);
         }
-
+		
+        public function fliplocation(facing:Boolean):void
+        {
+            if ((!(facing)))
+            {
+                m_faceLeft();
+            }
+            else
+            {
+                m_faceRight();
+            };
+        }
+		
         public function set KirbyPower(value:String):void
         {
             var i:int;
