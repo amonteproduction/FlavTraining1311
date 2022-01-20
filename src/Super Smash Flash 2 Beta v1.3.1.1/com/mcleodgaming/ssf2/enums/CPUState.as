@@ -27,6 +27,7 @@ package com.mcleodgaming.ssf2.enums
         public static const MARTH_KILLER:int = 15;
         public static const FOX_THROW:int = 16;		
         public static const SDI_PRACTICE:int = 17;		
+        public static const ICHIGO_UPB:int = 18;		
 
 		
         private static var statesArr:Array = new Array();
@@ -49,6 +50,7 @@ package com.mcleodgaming.ssf2.enums
             statesArr.push("FALCO_LASER_PRACTICE");
 			statesArr.push("FOX_THROW");
 			statesArr.push("SDI_PRACTICE");
+			statesArr.push("ICHIGO_UPB");			
 			}
 
 

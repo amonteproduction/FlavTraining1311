@@ -60,6 +60,8 @@ package com.mcleodgaming.ssf2.engine
         private var m_falcoTimer1:FrameTimer;
         private var m_falcoTimer2:FrameTimer;
 		private var m_falcoTimer3:FrameTimer;
+		private var m_falcoTimer4:FrameTimer;		
+		private var m_falcoTimer5:FrameTimer;		
 		private var m_marthtimer:FrameTimer;
 		private var m_evadeOverrideTimer:FrameTimer;
         private var m_jumpTimer:FrameTimer;
@@ -136,6 +138,8 @@ package com.mcleodgaming.ssf2.engine
 			this.m_falcoTimer1 = new FrameTimer(5);
 			this.m_falcoTimer2 = new FrameTimer(15);
 			this.m_falcoTimer3 = new FrameTimer(2);
+			this.m_falcoTimer4 = new FrameTimer(7);	
+			this.m_falcoTimer5 = new FrameTimer(14);			
 			this.m_marthtimer = new FrameTimer(21);
 			this.m_evadeOverrideTimer = new FrameTimer(30);
             this.m_beaconTimer = new FrameTimer(150);
@@ -434,7 +438,8 @@ package com.mcleodgaming.ssf2.engine
 			arr[14] = "falco laser practice";
 			arr[15] = "marthkiller";
 			arr[16] = "fox throw practice";	
-			arr[17] = "sdi tech practice";						
+			arr[17] = "sdi tech practice";	
+			arr[18] = "ichi upb edgeguarding";									
             return (arr);
         }
 
@@ -558,14 +563,39 @@ package com.mcleodgaming.ssf2.engine
                                 {
 									if(this.m_action == CPUState.FOX_THROW)
 										 {
-											this.m_marthtimer.tick();
-											this.m_keys.LEFT = true;				
-											if(this.m_marthtimer.IsComplete){
-											this.m_keys.LEFT = false;
-											this.m_keys.GRAB = true
-											this.m_keys.UP = true;
+											this.m_target = this.findOpponent();
+											if(!this.m_marthtimer.IsComplete){
+											this.resetAllKeys();	
+											this.m_keys.LEFT = true; 	 	
+											this.m_marthtimer.tick();	
+											this.m_target.CurrentTarget.X = 372;
+											this.m_target.CurrentTarget.DisableKey = true;
 											}
-										 }
+											if(this.m_marthtimer.IsComplete && !this.m_falcoTimer3.IsComplete){
+											this.m_keys.LEFT = false;
+											this.m_keys.GRAB = true;
+											if(!this.m_falcoTimer3.IsComplete){
+											this.m_falcoTimer3.tick();
+											}
+											}
+											if(this.m_falcoTimer3.IsComplete && !this.m_falcoTimer1.IsComplete){
+											this.m_keys.GRAB = false;												
+											this.m_keys.UP = true;
+											this.m_falcoTimer1.tick();
+											}
+											if(this.m_falcoTimer1.IsComplete && !this.m_falcoTimer4.IsComplete){
+											this.resetAllKeys();	
+											this.m_falcoTimer4.tick();
+											}	
+											if(this.m_falcoTimer1.IsComplete && this.m_falcoTimer4.IsComplete){
+											this.jump();
+											this.m_target.CurrentTarget.DisableKey = false;
+											this.m_falcoTimer5.tick();
+											}	
+											if(this.m_falcoTimer5.IsComplete){
+											this.m_keys.C_UP = true;
+											}
+									 }
 							else
                                 {
 									if(this.m_action == CPUState.SDI_PRACTICE)
@@ -579,6 +609,22 @@ package com.mcleodgaming.ssf2.engine
 											}
 											if( (this.m_target) && ((this.m_playerClassInstance.X - this.m_target.CurrentTarget.X) <= 120)){
 												this.m_keys.C_LEFT = true;
+											}
+										 }	
+						else
+                                {
+									if(this.m_action == CPUState.ICHIGO_UPB)
+										 {
+											this.m_target = this.findOpponent();
+											this.m_falcoTimer3.tick(); 
+											if(!this.m_falcoTimer3.IsComplete){
+											this.m_target.CurrentTarget.flip();
+											this.m_playerClassInstance.Y = 480;
+											this.m_playerClassInstance.X = 60;
+											}
+											if(this.m_falcoTimer3.IsComplete){
+											this.m_keys.UP = true;
+											this.m_keys.BUTTON1 = true;																								
 											}
 										 }				 
                                 else
@@ -701,6 +747,7 @@ package com.mcleodgaming.ssf2.engine
 							};
                             };
                         };
+					};
                     };
                 };
             };
