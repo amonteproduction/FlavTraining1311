@@ -79,6 +79,7 @@
 			this.createUI(_containerWidth);
 			m_disablePauseMapping = true;
 			container.visible = false;
+			m_switchMenu = true;
 			this.makeEvents();
 
 		}
@@ -126,7 +127,7 @@
 		
 		override public function manageMenuMappings(e:Event):void
         {
-            if (((((GameController.stageData) && (GameController.stageData.FreezeKeys)) && (GameController.stageData.GameRef.GameMode == Mode.TRAINING)) && (!(this.m_homeMenuMapper == null)) && (this.m_switchMenu != true)))
+            if (((((GameController.stageData) && (GameController.stageData.FreezeKeys)) && (GameController.stageData.GameRef.GameMode == Mode.TRAINING)) && (!(this.m_homeMenuMapper == null)) && (this.m_switchMenu == true)))
             {
                 super.manageMenuMappings(e);
             }
@@ -147,20 +148,29 @@
         		if (container.visible == true)
         		{
         			container.visible = false;
-        			m_hud.m_switchMenu = false;
+        			m_hud.m_switchMenu = true;
         			m_hud.showTrainingDisplay();
+        			this.m_switchMenu = false;
         		}
         		else
         		{
         			container.visible = true;
-        			m_hud.m_switchMenu = true;
+        			m_hud.m_switchMenu = false;
         			m_hud.temphide = false;
+        			this.m_switchMenu = true;
         		}
         	}
         }
 
 		public function showTrainingDisplay():void
         {
+        	if (m_switchMenu == false)
+        	{
+        		container.visible = false;
+        		m_hud.showTrainingDisplay();
+        		showvisual = true;
+        		return;
+        	}
             if ((!(GameController.stageData)))
             {
                 return;
@@ -407,7 +417,7 @@
 
 			if (mc == null) { return; }
 			
-			trace("Type" + mc.type);
+			//trace("Type" + mc.type);
 			
 			if (mc.type == 0)
 			{
