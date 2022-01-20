@@ -482,7 +482,11 @@ package com.mcleodgaming.ssf2.engine
             this.m_totalPausedTime = 0;
             this.ITEMGENS = new Vector.<MovieClip>();
             this.m_nullPlayers = new Array();
-			this.m_trainingHud = new TrainingHUD(this);
+			this.m_trainingHud = new TrainingHUD();// this,this.STAGE.stage
+            this.m_trainingHud.m_stage = this;
+            this.m_trainingHud.m_stagef = this.STAGE.stage;
+            this.m_trainingHud.m_hud = this.HUD;
+            this.m_trainingHud.init();
             if (ModeFeatures.hasFeature(ModeFeatures.FILL_PLAYER_SLOTS, this.GAME.GameMode))
             {
                 firstChar = null;
@@ -1954,9 +1958,13 @@ package com.mcleodgaming.ssf2.engine
             this.stopCrowdChant();
             this.m_gameEnded = true;
             this.m_gameEndedExit = true;
-            if (this.m_fpsTimer)
+             if (this.m_fpsTimer)
             {
-                this.m_fpsTimer.kill();
+                //this.m_fpsTimer.kill();
+                //if (m_trainingHud)
+                //{
+                    //m_trainingHud.kill();
+                //}
             };
             i = 0;
             while (i < this.PLAYERS.length)
@@ -2084,6 +2092,7 @@ package com.mcleodgaming.ssf2.engine
             };
             if (this.GAME.GameMode == Mode.TRAINING)
             {
+				this.m_trainingHud.killEvents()
                 UnlockController.nextMenuFunc = function ():void
                 {
                     GameController.destroyStageData();
@@ -4689,7 +4698,8 @@ package com.mcleodgaming.ssf2.engine
                 this.m_freezeKeys = (!(this.m_freezeKeys));
                 if (this.m_freezeKeys)
                 {
-                    this.HUD.showTrainingDisplay();
+                    //this.HUD.showTrainingDisplay();
+					this.m_trainingHud.showTrainingDisplay()
                     list = new Vector.<MovieClip>();
                     p = 0;
                     while (p < this.PLAYERS.length)
@@ -4713,6 +4723,7 @@ package com.mcleodgaming.ssf2.engine
                 {
                     SoundQueue.instance.playSoundEffect("menu_back");
                     this.HUD.hideTrainingDisplay();
+					this.m_trainingHud.hideTrainingDisplay();
                     i = 1;
                     while (i < this.PLAYERS.length)
                     {

@@ -27,7 +27,6 @@ package com.mcleodgaming.ssf2.menus
     import com.mcleodgaming.ssf2.util.*;
     import com.mcleodgaming.ssf2.controllers.*;
     import com.mcleodgaming.ssf2.engine.*;
-    import com.mcleodgaming.ssf2.engine.AI;
     import com.mcleodgaming.ssf2.audio.*;
     import __AS3__.vec.*;
 
@@ -56,6 +55,7 @@ package com.mcleodgaming.ssf2.menus
         private var m_hudNode:MenuMapperNode;
         private var m_resetNode:MenuMapperNode;
         private var m_finishNode:MenuMapperNode;
+        public var m_switchMenu:Boolean;
 		public var PermanantShieldCPU:Boolean;
 
         public function HudMenu()
@@ -87,6 +87,7 @@ package com.mcleodgaming.ssf2.menus
             this.m_cpuDamageInc = true;
             this.m_hudMode = 0;
             this.m_hudDectionMCs = new Vector.<MovieClip>();
+            this.m_switchMenu = false;
             MovieClip(m_subMenu.getChildByName("red_score")).visible = false;
             MovieClip(m_subMenu.getChildByName("blue_score")).visible = false;
             m_disablePauseMapping = true;
@@ -117,6 +118,16 @@ package com.mcleodgaming.ssf2.menus
             return (this.m_cpuAction);
         }
 
+        public function set temphide(value:Boolean):void
+        {
+            m_subMenu.training_menu.visible = value;
+        }
+
+        public function restartinit():void
+        {
+            m_menuMapper.init();
+        }
+
         public function toggleMainDisplay(visible:Boolean):void
         {
             this.m_damageCounterContainer.visible = visible;
@@ -141,7 +152,7 @@ package com.mcleodgaming.ssf2.menus
 
         override public function manageMenuMappings(e:Event):void
         {
-            if (((((GameController.stageData) && (GameController.stageData.FreezeKeys)) && (GameController.stageData.GameRef.GameMode == Mode.TRAINING)) && (!(this.m_speedNode == null))))
+            if (((((GameController.stageData) && (GameController.stageData.FreezeKeys)) && (GameController.stageData.GameRef.GameMode == Mode.TRAINING)) && (!(this.m_speedNode == null)) && (this.m_switchMenu != true)))
             {
                 super.manageMenuMappings(e);
             }
@@ -674,7 +685,7 @@ package com.mcleodgaming.ssf2.menus
             this.m_cpuAction--;
             if (this.m_cpuAction < -2)
             {
-                this.m_cpuAction = 19;
+                this.m_cpuAction = 18;
             };
             var p:int = 1;
             while (p < GameController.stageData.Players.length)
@@ -699,7 +710,7 @@ package com.mcleodgaming.ssf2.menus
         public function next_cpuAction_CLICK(e:MouseEvent):void
         {
             this.m_cpuAction++;
-            if (this.m_cpuAction > 19)
+            if (this.m_cpuAction > 18)
             {
                 this.m_cpuAction = -2;
             };
