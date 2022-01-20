@@ -353,6 +353,7 @@ package com.mcleodgaming.ssf2.engine
         private var CPU:AI;
         private var m_attackControlsArr:Vector.<int>;
         private var dragging:Boolean;
+        public var DisableKey:Boolean;
 		public var AIShieldGrabCPU:int = 0;
 
         public function Character(stats:CharacterData, parameters:PlayerSetting, stageData:StageData)
@@ -752,6 +753,7 @@ package com.mcleodgaming.ssf2.engine
             this.m_freezePlayback = false;
             this.m_pauseCamXSpeed = 0;
             this.m_pauseCamYSpeed = 0;
+            this.DisableKey = false;
             if ((!(this.m_human)))
             {
                 this.CPU = new AI(this.m_playerSettings.level, this, STAGEDATA);
@@ -3828,7 +3830,7 @@ package com.mcleodgaming.ssf2.engine
             {
                 if (this.m_human)
                 {
-                    if (((STAGEDATA.OnlineMode) || (STAGEDATA.ReplayMode)))
+                    if (((STAGEDATA.OnlineMode) || (STAGEDATA.ReplayMode) || (this.DisableKey)))
                     {
                         this.updateControlsBuffer();
                         this.processControlsBuffer();
