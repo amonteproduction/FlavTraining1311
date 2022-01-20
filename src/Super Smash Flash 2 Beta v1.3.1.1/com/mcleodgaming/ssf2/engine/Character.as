@@ -395,6 +395,14 @@ package com.mcleodgaming.ssf2.engine
             m_sprite.x = 85;
             m_sprite.y = 86;
 			}
+			else if(STAGEDATA.GameRef.GameMode == Mode.EVENT && this.m_playerSettings.character == "marth" && this.m_playerSettings.costume == 2) {
+            m_sprite.x = 60;
+            m_sprite.y = 86;
+			}
+			else if(STAGEDATA.GameRef.GameMode == Mode.EVENT && this.m_playerSettings.character == "falco" && this.m_playerSettings.costume == 4) {
+            m_sprite.x = -85;
+            m_sprite.y = -386;
+			}			
 			else{
 			m_sprite.x = this.m_playerSettings.x_start;
             m_sprite.y = this.m_playerSettings.y_start;
@@ -900,6 +908,14 @@ package com.mcleodgaming.ssf2.engine
                 };
             };
         }
+	
+        public function modifyCanDI(name:String, value:Boolean):void
+        {
+            if (m_attackData.getAttack(name) != null)
+            {
+                        m_attackData.getAttack(name).AttackBoxes["attackBox"].CanDI = value;
+			}
+        }		
 
         public function getAttack(name:String, num:Number):*
         {

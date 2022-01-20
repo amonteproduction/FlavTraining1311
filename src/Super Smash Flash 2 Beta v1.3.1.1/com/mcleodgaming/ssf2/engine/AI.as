@@ -135,7 +135,7 @@ package com.mcleodgaming.ssf2.engine
             this.m_evadeTimer = new FrameTimer(10);
 			this.m_falcoTimer1 = new FrameTimer(5);
 			this.m_falcoTimer2 = new FrameTimer(15);
-			this.m_falcoTimer3 = new FrameTimer(1);
+			this.m_falcoTimer3 = new FrameTimer(2);
 			this.m_marthtimer = new FrameTimer(21);
 			this.m_evadeOverrideTimer = new FrameTimer(30);
             this.m_beaconTimer = new FrameTimer(150);
@@ -433,6 +433,8 @@ package com.mcleodgaming.ssf2.engine
             arr[13] = "force do nothing";
 			arr[14] = "falco laser practice";
 			arr[15] = "marthkiller";
+			arr[16] = "fox throw practice";	
+			arr[17] = "sdi tech practice";						
             return (arr);
         }
 
@@ -551,6 +553,33 @@ package com.mcleodgaming.ssf2.engine
 											this.m_keys.UP = true;
 											this.m_keys.BUTTON1 = true;
 											}
+										 }	
+							else
+                                {
+									if(this.m_action == CPUState.FOX_THROW)
+										 {
+											this.m_marthtimer.tick();
+											this.m_keys.LEFT = true;				
+											if(this.m_marthtimer.IsComplete){
+											this.m_keys.LEFT = false;
+											this.m_keys.GRAB = true
+											this.m_keys.UP = true;
+											}
+										 }
+							else
+                                {
+									if(this.m_action == CPUState.SDI_PRACTICE)
+										 {
+											this.m_target = this.findOpponent();
+											this.m_falcoTimer3.tick(); 
+											if(!this.m_falcoTimer3.IsComplete){
+											this.m_target.CurrentTarget.Attack("b_up", 2);	
+											this.m_target.CurrentTarget.Y = 296;
+											this.m_target.CurrentTarget.X = -126;												
+											}
+											if( (this.m_target) && ((this.m_playerClassInstance.X - this.m_target.CurrentTarget.X) <= 120)){
+												this.m_keys.C_LEFT = true;
+											}
 										 }				 
                                 else
                                 {
@@ -667,7 +696,9 @@ package com.mcleodgaming.ssf2.engine
                                         };
 									};
                                     };
+								};
                                 };
+							};
                             };
                         };
                     };
