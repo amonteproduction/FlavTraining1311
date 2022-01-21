@@ -57,6 +57,7 @@ package com.mcleodgaming.ssf2.engine
     import com.mcleodgaming.ssf2.net.*;
     import com.mcleodgaming.ssf2.platforms.*;
     import __AS3__.vec.*;
+    import com.pecefulmods.TrainingMenus.GameMenu;
 
     public class Character extends InteractiveSprite 
     {
@@ -15630,10 +15631,10 @@ package com.mcleodgaming.ssf2.engine
         {
             if (((!(isHitStunOrParalysis())) && (this.m_hitLag > 0)))
             {
-				            if(!MultiplayerManager.Connected)
-            {
-               setTint(1.6,1,1,1,255,40,0,0);
-            }
+				if(!MultiplayerManager.Connected && GameMenu.HitStun)
+                {
+                    setTint(1.6,1,1,1,255,40,0,0);
+                }
                 this.m_hitLag--;
                 this.m_hitLagStunTimer.tick();
                 if (((((m_collision.ground) && (inState(CState.INJURED))) && (this.netYSpeed() >= 0)) && (!(this.m_hitLagLandDelay.IsComplete))))
@@ -15643,10 +15644,10 @@ package com.mcleodgaming.ssf2.engine
             }
             else
             {
-					if(!inState(CState.SHIELDING) && !MultiplayerManager.Connected)
-					{
-					   setTint(1,1,1,1,0,0,0,0);
-					}
+				if(!inState(CState.SHIELDING) && !MultiplayerManager.Connected)
+				{
+				   setTint(1,1,1,1,0,0,0,0);
+				}
                 if (((!(isHitStunOrParalysis())) && (this.m_hitLag <= 0)))
                 {
                     this.m_hitLagLandDelay.finish();

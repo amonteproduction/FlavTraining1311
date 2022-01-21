@@ -24,24 +24,31 @@
 	import com.pecefulmods.TrainingHUD;
 	import com.mcleodgaming.ssf2.engine.InteractiveSprite;
 	import com.mcleodgaming.ssf2.menus.MenuMapper;
+	import com.pecefulmods.DrawingShapes;
+	import com.mcleodgaming.ssf2.controllers.GameController;	
 	
 	public class GameMenu 
 	{
 		
-
+		public static var hitLag:Boolean = true;
 		private var buttonsMenu:Vector.<MovieClip>;
 		private var MapperButtons:Vector.<MenuMapperNode>;
 		private var m_menuMapper:MenuMapper;
 		
 		public function GameMenu(traininghud:TrainingHUD):void
 		{	
-			m_trainingHud = traininghud;
-			
 			buttonsMenu = new Vector.<MovieClip>();
 			MapperButtons = new Vector.<MenuMapperNode>();
+			m_trainingHud = traininghud;
 			
+		
+			var m_offlineBuffer = ["Offline", "Low", "Normal", "High"];
 			
-			buttonsMenu.push(m_trainingHud.createButton("Hitboxes", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK));
+			buttonsMenu.push(m_trainingHud.createButton("Hitboxes", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK, null));
+			buttonsMenu.push(m_trainingHud.createButton("HitStun", 1 , m_trainingHud._containerWidth,null,this.hitstun_CLICK, null));
+			buttonsMenu.push(m_trainingHud.createButton("Offline Buffer", 2 , m_trainingHud._containerWidth,null,this.buffer_CHANGE, null, m_offlineBuffer));
+			buttonsMenu.push(m_trainingHud.createButton("DI Lines (Not made)", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK, null));
+			buttonsMenu.push(m_trainingHud.createButton("Position Reset (Not made)", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK, null));
 			m_menuMapper = m_trainingHud.initMenuMapping(MapperButtons,buttonsMenu);
 
 		}
@@ -66,6 +73,32 @@
 		{
 			InteractiveSprite.SHOW_HITBOXES = ON;
 			Main.fixFocus();
+		}
+
+		public function hitstun_CLICK(ON:Boolean):void
+		{
+			hitLag = ON;
+		}
+		
+		public function buffer_CHANGE(value:String):void
+		{
+			if(value == "Offline")
+			{
+				GameController.currentGame.LevelData.inputBuffer = 0;
+			}
+			else if(value == "Low")
+			{
+				GameController.currentGame.LevelData.inputBuffer = 2;
+			}
+			else if(value == "Normal")
+			{
+				GameController.currentGame.LevelData.inputBuffer = 3;
+			}
+			else if(value == "High")
+			{
+				GameController.currentGame.LevelData.inputBuffer = 4;
+			}
+			trace(GameController.currentGame.LevelData.inputBuffer)
 		}
 
 		public function toggleDebugConsole(e:KeyboardEvent):void

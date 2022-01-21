@@ -23,6 +23,7 @@
 	import flash.text.TextFormatAlign;
 	import flash.events.MouseEvent;
 	import flash.events.EventDispatcher;
+	import com.pecefulmods.DrawingShapes; 
 	
 	import com.mcleodgaming.ssf2.audio.SoundQueue;
 	import com.pecefulmods.TrainingMenus.GameMenu;
@@ -42,7 +43,6 @@
 		
 		private var buttonsMenu:Vector.<MovieClip>;
 		private var MapperButtons:Vector.<MenuMapperNode>;
-		private var _eventDispatcher:EventDispatcher;
 		private var char_position:Object =  new Object();
 		private var setsave:Boolean = false;
 		private var m_homeMenuMapper:MenuMapper;
@@ -50,18 +50,14 @@
 		private var showvisual:Boolean;
 		public var m_hud:*;
 		
-	
-		
 		public function TrainingHUD()
 		{	
-			
+			trace("started Training HUD")
 		}
 
 		public function init()
 		{
-			Main.Root.stage.addEventListener(KeyboardEvent.KEY_DOWN, this.menuswitch);
-         	MultiplayerManager.makeNotifier();
-			trace("started Training HUD")
+         	
 			
 			buttonsMenu = new Vector.<MovieClip>();
 			MapperButtons = new Vector.<MenuMapperNode>();
@@ -72,15 +68,15 @@
 			buttonsMenu.push(createButton("Stage", 0 , _containerWidth));
 			buttonsMenu.push(createButton("Options", 0 , _containerWidth, new GameMenu(this)));
 			
-			
-			
-			this.m_homeMenuMapper = this.initMenuMapping(MapperButtons,buttonsMenu);
-			m_menuMapper = this.m_homeMenuMapper;
+			m_menuMapper = this.m_homeMenuMapper = this.initMenuMapping(MapperButtons,buttonsMenu);
 			this.createUI(_containerWidth);
 			m_disablePauseMapping = true;
 			container.visible = false;
 			m_switchMenu = true;
 			this.makeEvents();
+			MultiplayerManager.makeNotifier();
+			Main.Root.stage.addEventListener(KeyboardEvent.KEY_DOWN, this.menuswitch);
+			
 
 		}
 		
@@ -95,21 +91,21 @@
         	{
 				if ((_buttonsMenu.length - 1) == 0)
 				{
-					_mapbuttons[0].updateNodes([_mapbuttons[0]], [_mapbuttons[0]], null, null, this.buttonOver, null, _buttonsMenu[j].func_CLICK, menu_BACK, null, null, null, null);
+					_mapbuttons[0].updateNodes([_mapbuttons[0]], [_mapbuttons[0]], null, null, this.buttonOver, null, _buttonsMenu[j].func_CLICK, menu_BACK, null, null,  menu_PREV, menu_NEXT );
 				
 				}
 				else if (j == 0)
 				{
-					_mapbuttons[j].updateNodes([_mapbuttons[_buttonsMenu.length - 1]], [_mapbuttons[j+1]], null, null, this.buttonOver, null, _buttonsMenu[j].func_CLICK, menu_BACK, null, null, null, null);
+					_mapbuttons[j].updateNodes([_mapbuttons[_buttonsMenu.length - 1]], [_mapbuttons[j+1]], null, null, this.buttonOver, null, _buttonsMenu[j].func_CLICK, menu_BACK, null, null,  menu_PREV, menu_NEXT );
 				}
-				else if (j == buttonsMenu.length - 1)
+				else if (j == _buttonsMenu.length - 1)
 				{
-					_mapbuttons[j].updateNodes([_mapbuttons[j - 1]], [_mapbuttons[0]], null, null, this.buttonOver, null, _buttonsMenu[j].func_CLICK, menu_BACK, null, null, null, null);			
+					_mapbuttons[j].updateNodes([_mapbuttons[j - 1]], [_mapbuttons[0]], null, null, this.buttonOver, null, _buttonsMenu[j].func_CLICK, menu_BACK, null, null,  menu_PREV, menu_NEXT );			
 
 				}
 				else
 				{
-					_mapbuttons[j].updateNodes([_mapbuttons[j - 1]], [_mapbuttons[j + 1]], null, null, this.buttonOver, null, _buttonsMenu[j].func_CLICK, menu_BACK, null, null, null, null);			
+					_mapbuttons[j].updateNodes([_mapbuttons[j - 1]], [_mapbuttons[j + 1]], null, null, this.buttonOver, null, _buttonsMenu[j].func_CLICK, menu_BACK, null, null, menu_PREV, menu_NEXT );			
 				}
         	}
 			
@@ -186,7 +182,7 @@
            showvisual = false
         }
 		
-		public function createButton(name:String = "null",type:int = 0, _width:int=0,LinkObj:* = null,funcClick:Function = null, funcBack:Function = null):MovieClip
+		public function createButton(name:String = "null",type:int = 0, _width:int=0,LinkObj:* = null,funcClick:Function = null, funcBack:Function = null, buttonList:Array = null):MovieClip
 		{
 			var buttonContainer = new MovieClip();
 			buttonContainer.func_CLICK = menu_CLICK;
@@ -234,9 +230,9 @@
 				return buttonContainer;
 			}
 			
-			else if (type == 1)
+			else if (type == 1 || type == 2)
 			{
-				buttonContainer.type = 1;
+				buttonContainer.type = type;
 				var rectangle:Sprite = new Sprite; // initializing the variable named rectangle
 				rectangle.graphics.beginFill(0x000000,.1);//.53); // choosing the colour for the fill, here it is red
 				rectangle.graphics.lineStyle(.1,0xFF3030,.13);
@@ -280,17 +276,39 @@
 				txt1.height = 19;
 				txt1.y = 3
 				
+				
+
+			
+
+				if (type == 2)
+				{	
+					txt1 = new TextField();
+					txt1.selectable = false;
+					txt1.text = buttonList[0];
+					txt1.textColor = 0xFFFFFF;
+					txt1.setTextFormat(format2);
+					txt1.border  = false;
+					txt1.borderColor =  0xFFFFFF;
+					txt1.width = _width;
+					txt1.height = 19;
+					txt1.y = 3
+					
+					buttonContainer.buttonlist = buttonList;
+					buttonContainer.pointer = 0;
+				}
+				
 				buttonContainer.txt = txt;
 				buttonContainer.txt1 = txt1;
 				buttonContainer.text1format = format2;
-
 				buttonContainer.addChild(txt);	
 				buttonContainer.addChild(txt1);	
-
 				buttonContainer.addChild(rectangle);
-				
 				return buttonContainer;
+				
 			}
+			
+
+			
 			
 		}
 
@@ -349,7 +367,7 @@
 			for each(var i in buttonsObj)
 			{
 				i.y = ymulti = 20 + ymulti;
-				i.addEventListener(MouseEvent.MOUSE_OVER, this.menu_MOUSE_OVER);
+				i.addEventListener(MouseEvent.MOUSE_OVER, this.menu_OVER);
 				i.addEventListener(MouseEvent.MOUSE_OUT, this.menu_MOUSE_OUT);
 				i.addEventListener(MouseEvent.CLICK, i.func_CLICK);
 				tempmovieclip.addChild(i);
@@ -367,11 +385,10 @@
 
 		override public function killEvents():void
         {
-        	trace("kill")
             super.killEvents();
             for each(var i in buttonsMenu)
 			{
-                i.removeEventListener(MouseEvent.MOUSE_OVER, this.menu_MOUSE_OVER);
+                i.removeEventListener(MouseEvent.MOUSE_OVER, this.menu_OVER);
 				i.removeEventListener(MouseEvent.MOUSE_OUT, this.menu_MOUSE_OUT);
 				i.removeEventListener(MouseEvent.CLICK, i.func_CLICK);
             };
@@ -380,6 +397,17 @@
             m_hud.restartinit();
         	m_stagef.removeChild(container);
         }
+
+        public override function resetButtonFocus(mc:MovieClip):void
+        {
+            this.buttonOut(mc);
+        }
+
+        public override function setButtonFocus(mc:MovieClip):void
+        {
+			 this.buttonOver(mc);
+        }
+
 		
 		
 		public function buttonOver(mc:MovieClip):void
@@ -401,8 +429,45 @@
 			mc.background_btn.transform.colorTransform = ct;
 			mc.txt.textColor = 0xFFFFFF;
 		}
+
+
 		
-		public function menu_MOUSE_OVER(e:MouseEvent) {
+		public function menu_PREV(e:MouseEvent):void
+		{
+			var mc = this.movieClipFinder(e);
+			if (mc == null) { return; }
+			
+			mc.pointer--
+			
+			if (mc.pointer < 0)
+			{
+				mc.pointer = mc.buttonlist.length - 1
+			}
+			mc.txt1.text = mc.buttonlist[mc.pointer];
+			mc.txt1.setTextFormat(mc.text1format)
+			mc.txt1.textColor = 0xFFFFFF;
+			mc.func_CLICK_OBJ(mc.buttonlist[mc.pointer]);
+		}
+
+		public function menu_NEXT(e:MouseEvent):void
+		{
+			var mc = this.movieClipFinder(e);
+			
+			if (mc == null) { return; }
+			mc.pointer++
+			if (mc.pointer > (mc.buttonlist.length - 1 ))
+			{
+				mc.pointer = 0
+			}
+			
+			mc.txt1.text = mc.buttonlist[mc.pointer];
+			mc.txt1.setTextFormat(mc.text1format)
+			mc.txt1.textColor = 0xFFFFFF;
+			
+			mc.func_CLICK_OBJ(mc.buttonlist[mc.pointer]);
+		}
+		
+		public function menu_OVER(e:MouseEvent) {
 			this.buttonOver(e.currentTarget);
 		}
 		
@@ -449,6 +514,10 @@
 
 				}
 			}
+			else if (mc.type == 2)
+			{
+				this.menu_NEXT(e);
+			}
 			SoundQueue.instance.playSoundEffect("menu_select");
 		
 		}
@@ -469,16 +538,7 @@
 		}
 
 		
-		public override function resetButtonFocus(mc:MovieClip):void
-        {
-            this.buttonOut(mc);
-        }
-
-        public override function setButtonFocus(mc:MovieClip):void
-        {
-			 this.buttonOver(mc);
-        }
-
+		
         public function movieClipFinder(e:*):MovieClip
         {
         	var mc:MovieClip;
