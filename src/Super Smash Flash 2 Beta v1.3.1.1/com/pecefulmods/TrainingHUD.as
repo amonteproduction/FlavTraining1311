@@ -355,6 +355,26 @@
 			Menutext.setTextFormat(format1); 
 			Background.addChild(Menutext); 
 			
+			var format2:TextFormat = new TextFormat();
+			format2.font="Arial";
+			format2.align = "center"
+			format2.size = 8;
+			
+			var footer:TextField = new TextField();
+			footer.selectable = false;
+			footer.text = "Select [ATK], Back [SP], Switch Menu [TAB]";
+			footer.textColor = 0xC0C0C0;
+			footer.setTextFormat(format2);
+			footer.border  = false;
+			footer.borderColor =  0xFFFFFF;
+			footer.width = container.tempwidth;
+			footer.height = 19;
+			footer.y = 165;
+
+			Background.addChild(footer); 
+
+
+			
 			this.addButtons(buttonsMenu);			
 			m_stagef.addChild(container);
 			
@@ -435,7 +455,7 @@
 		public function menu_PREV(e:MouseEvent):void
 		{
 			var mc = this.movieClipFinder(e);
-			if (mc == null) { return; }
+			if (mc == null || mc.buttonlist == null) { return; }
 			
 			mc.pointer--
 			
@@ -453,7 +473,7 @@
 		{
 			var mc = this.movieClipFinder(e);
 			
-			if (mc == null) { return; }
+			if (mc == null || mc.buttonlist == null) { return; }
 			mc.pointer++
 			if (mc.pointer > (mc.buttonlist.length - 1 ))
 			{
@@ -545,10 +565,6 @@
         	if (e != null)
 			{
 				mc = e.currentTarget;
-				if (mc.MenuLink == null)
-				{
-					return null;
-				}
 			}
 			else if (e == null)
 			{
