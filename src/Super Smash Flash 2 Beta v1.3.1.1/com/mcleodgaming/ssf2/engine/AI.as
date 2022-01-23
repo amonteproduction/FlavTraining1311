@@ -62,6 +62,8 @@ package com.mcleodgaming.ssf2.engine
 		private var m_falcoTimer3:FrameTimer;
 		private var m_falcoTimer4:FrameTimer;		
 		private var m_falcoTimer5:FrameTimer;		
+		private var m_falcoTimer6:FrameTimer;		
+		private var m_falcoTimer7:FrameTimer;		
 		private var m_marthtimer:FrameTimer;
 		private var m_evadeOverrideTimer:FrameTimer;
         private var m_jumpTimer:FrameTimer;
@@ -101,6 +103,7 @@ package com.mcleodgaming.ssf2.engine
         private var m_recoveryAttackList:Vector.<AttackObject>;
         private var m_controlOverrides:Vector.<int>;
 		public var DIMode:String = ""; 
+		public var falcoMode:int = Utils.randomInteger(1,3); 
 		public var CPUShieldGrabbing:Boolean; 
 
         public function AI(level:int, player:Character, stageData:StageData)
@@ -139,7 +142,9 @@ package com.mcleodgaming.ssf2.engine
 			this.m_falcoTimer2 = new FrameTimer(15);
 			this.m_falcoTimer3 = new FrameTimer(2);
 			this.m_falcoTimer4 = new FrameTimer(7);	
-			this.m_falcoTimer5 = new FrameTimer(14);			
+			this.m_falcoTimer5 = new FrameTimer(14);
+			this.m_falcoTimer6 = new FrameTimer(5);		
+			this.m_falcoTimer7 = new FrameTimer(3);				
 			this.m_marthtimer = new FrameTimer(21);
 			this.m_evadeOverrideTimer = new FrameTimer(30);
             this.m_beaconTimer = new FrameTimer(150);
@@ -439,7 +444,9 @@ package com.mcleodgaming.ssf2.engine
 			arr[15] = "marthkiller";
 			arr[16] = "fox throw practice";	
 			arr[17] = "sdi tech practice";	
-			arr[18] = "ichi upb edgeguarding";									
+			arr[18] = "ichi upb edgeguarding";	
+			arr[19] = "falco 2";
+			arr[20] = "falco 3";
             return (arr);
         }
 
@@ -533,6 +540,9 @@ package com.mcleodgaming.ssf2.engine
                                 {
 									if(this.m_action == CPUState.FALCO_LASER_PRACTICE)
 										 {
+										this.m_playerClassInstance.setInvincibility(true);
+									if(this.falcoMode == 1){
+											trace("Falco Mode " + this.falcoMode);
 											this.resetAllKeys();
 											if(!this.m_falcoTimer1.IsComplete){
 											this.jump();
@@ -544,10 +554,62 @@ package com.mcleodgaming.ssf2.engine
 											this.m_falcoTimer2.tick();
 											}
 											if(this.m_falcoTimer2.IsComplete){
-											this.m_falcoTimer1.reset();
+											this.m_falcoTimer7.reset();
+											this.m_falcoTimer6.reset();												
+											this.m_falcoTimer1.reset();	
 											this.m_falcoTimer2.reset();
+											this.falcoMode = Utils.randomInteger(1,3);	
+											}
+										}
+									if(this.falcoMode == 2)
+										 {											
+											trace("Falco Mode " + this.falcoMode);		
+											 this.resetAllKeys();
+											if(!this.m_falcoTimer1.IsComplete){
+											this.jump();
+											this.m_falcoTimer1.tick();
+											}
+											if(this.m_falcoTimer1.IsComplete){
+											this.m_keys.JUMP = false;
+											this.m_falcoTimer2.tick();
+											this.m_falcoTimer7.tick();	
+											}
+											if(this.m_falcoTimer7.IsComplete){
+											this.m_keys.BUTTON1 = true;
+											}
+											if(this.m_falcoTimer2.IsComplete){
+											this.m_falcoTimer7.reset();
+											this.m_falcoTimer6.reset();												
+											this.m_falcoTimer1.reset();	
+											this.m_falcoTimer2.reset();
+											this.falcoMode = Utils.randomInteger(1,3);
+											}
+										}
+									if(this.falcoMode == 3)
+										 {
+											trace("Falco Mode " + this.falcoMode);											
+											 this.resetAllKeys();
+											if(!this.m_falcoTimer1.IsComplete){
+											this.jump();
+											this.m_falcoTimer1.tick();
+											}
+											if(this.m_falcoTimer1.IsComplete){
+											this.m_keys.JUMP = false;
+											this.m_falcoTimer2.tick();
+											this.m_falcoTimer6.tick();	
+											}
+											if(this.m_falcoTimer6.IsComplete){
+											this.m_keys.BUTTON1 = true;
+											}
+											if(this.m_falcoTimer2.IsComplete){
+											this.m_falcoTimer7.reset();
+											this.m_falcoTimer6.reset();												
+											this.m_falcoTimer1.reset();	
+											this.m_falcoTimer2.reset();
+											this.falcoMode = Utils.randomInteger(1,3);
 											}
 										 }
+									 }
 							else
                                 {
 									if(this.m_action == CPUState.MARTH_KILLER)
@@ -564,12 +626,13 @@ package com.mcleodgaming.ssf2.engine
 									if(this.m_action == CPUState.FOX_THROW)
 										 {
 											this.m_target = this.findOpponent();
+											this.m_target.CurrentTarget.DisableKey = true;
 											if(!this.m_marthtimer.IsComplete){
 											this.resetAllKeys();	
 											this.m_keys.LEFT = true; 	 	
+											this.m_target.CurrentTarget.setState(CState.TAUNT);	
 											this.m_marthtimer.tick();	
 											this.m_target.CurrentTarget.X = 372;
-											this.m_target.CurrentTarget.DisableKey = true;
 											}
 											if(this.m_marthtimer.IsComplete && !this.m_falcoTimer3.IsComplete){
 											this.m_keys.LEFT = false;
@@ -589,10 +652,10 @@ package com.mcleodgaming.ssf2.engine
 											}	
 											if(this.m_falcoTimer1.IsComplete && this.m_falcoTimer4.IsComplete){
 											this.jump();
-											this.m_target.CurrentTarget.DisableKey = false;
 											this.m_falcoTimer5.tick();
 											}	
 											if(this.m_falcoTimer5.IsComplete){
+											this.m_target.CurrentTarget.DisableKey = false;	
 											this.m_keys.C_UP = true;
 											}
 									 }
