@@ -152,7 +152,7 @@ package com.mcleodgaming.ssf2.menus
 
         override public function manageMenuMappings(e:Event):void
         {
-            if (((((GameController.stageData) && (GameController.stageData.FreezeKeys)) && (GameController.stageData.GameRef.GameMode == Mode.TRAINING)) && (!(this.m_speedNode == null)) && (this.m_switchMenu != true)))
+            if (((((GameController.stageData) && (GameController.stageData.FreezeKeys)) && (GameController.stageData.GameRef.GameMode == Mode.TRAINING)) && (!(this.m_speedNode == null)) && (this.m_switchMenu == true)))
             {
                 super.manageMenuMappings(e);
             }
