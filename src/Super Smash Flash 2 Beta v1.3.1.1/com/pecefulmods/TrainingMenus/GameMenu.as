@@ -42,7 +42,7 @@
 			m_trainingHud = traininghud;
 			
 		
-			var m_offlineBuffer = ["Offline", "Low", "Normal", "High"];
+			var m_offlineBuffer = ["Low (2f)", "Normal (3f)", "High (4f)", "Offline (0f)"];
 			
 			buttonsMenu.push(m_trainingHud.createButton("Hitboxes", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK, null));
 			buttonsMenu.push(m_trainingHud.createButton("HitStun", 1 , m_trainingHud._containerWidth,null,this.hitstun_CLICK, null));
