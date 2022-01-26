@@ -26,7 +26,7 @@
 	import com.pecefulmods.DrawingShapes; 
 	
 	import com.mcleodgaming.ssf2.audio.SoundQueue;
-	import com.pecefulmods.TrainingMenus.GameMenu;
+	import com.pecefulmods.TrainingMenus.*;
 	import flash.geom.ColorTransform;
 	import com.mcleodgaming.ssf2.engine.InteractiveSprite;
 	import com.mcleodgaming.ssf2.controllers.GameController;	
@@ -49,6 +49,7 @@
 		public var m_switchMenu:Boolean;
 		private var showvisual:Boolean;
 		public var m_hud:*;
+		private var blocker:Boolean;
 		
 		public function TrainingHUD()
 		{	
@@ -65,7 +66,7 @@
 			buttonsMenu.push(createButton("Game", 0 , _containerWidth));
 			buttonsMenu.push(createButton("Character", 0 , _containerWidth));
 			buttonsMenu.push(createButton("CPU", 0 , _containerWidth));
-			buttonsMenu.push(createButton("Stage", 0 , _containerWidth));
+			buttonsMenu.push(createButton("Stage", 0 , _containerWidth, new StageMenu(this)));
 			buttonsMenu.push(createButton("Options", 0 , _containerWidth, new GameMenu(this)));
 			
 			m_menuMapper = this.m_homeMenuMapper = this.initMenuMapping(MapperButtons,buttonsMenu);
@@ -230,7 +231,7 @@
 				return buttonContainer;
 			}
 			
-			else if (type == 1 || type == 2)
+			else if (type == 1 || type == 2 || type == 3)
 			{
 				buttonContainer.type = type;
 				var rectangle:Sprite = new Sprite; // initializing the variable named rectangle
@@ -280,7 +281,7 @@
 
 			
 
-				if (type == 2)
+				if (type == 2 || type == 3)
 				{	
 					txt1 = new TextField();
 					txt1.selectable = false;
@@ -436,6 +437,8 @@
 			{
 				mc = m_menuMapper.currentNode.clip;
 			}
+			
+			
 			var ct:ColorTransform = new ColorTransform();
 			ct.color = 0xFFFFFF;
 			ct.alphaMultiplier = .56;
@@ -538,6 +541,12 @@
 			{
 				this.menu_NEXT(e);
 			}
+			else if (mc.type == 3)
+			{
+				mc.txt1.text = mc.func_CLICK_OBJ();
+				mc.txt1.setTextFormat(mc.text1format)
+				mc.txt1.textColor = 0xFFFFFF;
+		}
 			SoundQueue.instance.playSoundEffect("menu_select");
 		
 		}
