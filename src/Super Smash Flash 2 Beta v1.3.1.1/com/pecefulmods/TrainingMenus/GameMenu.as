@@ -30,7 +30,7 @@
 	public class GameMenu 
 	{
 		
-		public static var hitLag:Boolean = true;
+		public static var HitStun:Boolean = true;
 		private var buttonsMenu:Vector.<MovieClip>;
 		private var MapperButtons:Vector.<MenuMapperNode>;
 		private var m_menuMapper:MenuMapper;
@@ -45,7 +45,7 @@
 			var m_offlineBuffer = ["Low (2f)", "Normal (3f)", "High (4f)", "Offline (0f)"];
 			
 			buttonsMenu.push(m_trainingHud.createButton("Hitboxes", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK, null));
-			buttonsMenu.push(m_trainingHud.createButton("HitStun", 1 , m_trainingHud._containerWidth,null,this.hitstun_CLICK, null));
+			buttonsMenu.push(m_trainingHud.createButton("HitStun Display", 1 , m_trainingHud._containerWidth,null,this.hitstun_CLICK, null));
 			buttonsMenu.push(m_trainingHud.createButton("Offline Buffer", 2 , m_trainingHud._containerWidth,null,this.buffer_CHANGE, null, m_offlineBuffer));
 			buttonsMenu.push(m_trainingHud.createButton("DI Lines (Not made)", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK, null));
 			buttonsMenu.push(m_trainingHud.createButton("Position Reset (Not made)", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK, null));
@@ -77,7 +77,7 @@
 
 		public function hitstun_CLICK(ON:Boolean):void
 		{
-			hitLag = ON;
+			GameMenu.HitStun = ON;
 		}
 		
 		public function buffer_CHANGE(value:String):void

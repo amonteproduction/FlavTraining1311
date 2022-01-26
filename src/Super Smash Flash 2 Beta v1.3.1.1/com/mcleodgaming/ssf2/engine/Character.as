@@ -13951,7 +13951,7 @@ package com.mcleodgaming.ssf2.engine
                     stunAmount = Utils.calculateHitStun(attackObj.HitStun, tempDamage, attackObj.Shock, false);
                     if ((!(this.PerfectShield)))
                     {
-					      if(attackObj.HasEffect && !MultiplayerManager.Connected)
+					      if(GameMenu.HitStun && attackObj.HasEffect && !MultiplayerManager.Connected)
 								  {
 									 setBrightness(200);
 								  }
@@ -16311,7 +16311,7 @@ package com.mcleodgaming.ssf2.engine
             {
                 if ((((this.m_shieldDelay > 5) && (!(isHitStunOrParalysis()))) && (this.m_shieldDelayTimer.IsComplete)))
                 {
-               if(!MultiplayerManager.Connected)
+               if(GameMenu.HitStun && !MultiplayerManager.Connected)
                {
                   setBrightness(0);
                }
