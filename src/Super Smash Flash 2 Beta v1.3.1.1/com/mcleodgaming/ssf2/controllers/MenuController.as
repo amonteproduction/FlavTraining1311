@@ -31,6 +31,7 @@ package com.mcleodgaming.ssf2.controllers
     import com.mcleodgaming.ssf2.menus.StageSelectMenu;
     import com.mcleodgaming.ssf2.menus.VaultMenu;
     import com.mcleodgaming.ssf2.menus.NewsMenu;
+    import com.mcleodgaming.ssf2.menus.ReplayMenu;	
     import com.mcleodgaming.ssf2.menus.NewsArticleMenu;
     import com.mcleodgaming.ssf2.menus.VSMenu;
     import com.mcleodgaming.ssf2.menus.ClassicModeMenu;
@@ -93,7 +94,8 @@ package com.mcleodgaming.ssf2.controllers
         private static var m_stageSelectMenu:StageSelectMenu;
         private static var m_vaultMenu:VaultMenu;
         private static var m_newsMenu:NewsMenu;
-        private static var m_newsArticleMenu:NewsArticleMenu;
+        private static var m_replayMenu:ReplayMenu;
+		private static var m_newsArticleMenu:NewsArticleMenu;
         private static var m_vsMenu:VSMenu;
         private static var m_classicMenu:ClassicModeMenu;
         private static var m_allstarMenu:AllStarModeMenu;
@@ -159,6 +161,7 @@ package com.mcleodgaming.ssf2.controllers
             m_stageSelectMenu = null;
             m_vaultMenu = null;
             m_newsMenu = null;
+            m_replayMenu = null;			
             m_newsArticleMenu = null;
             if (disposePreserevedMenus)
             {
@@ -297,6 +300,10 @@ package com.mcleodgaming.ssf2.controllers
             {
                 m_newsMenu.removeSelf();
             };
+            if (m_replayMenu)
+            {
+                m_replayMenu.removeSelf();
+            };			
             if (m_newsArticleMenu)
             {
                 m_newsArticleMenu.removeSelf();
@@ -632,6 +639,16 @@ package com.mcleodgaming.ssf2.controllers
             return (m_newsMenu);
         }
 
+        public static function get replayMenu():ReplayMenu
+        {
+            if ((!(m_replayMenu)))
+            {
+                m_replayMenu = new ReplayMenu();
+            };
+            return (m_replayMenu);
+        }
+		
+		
         public static function get newsArticleMenu():NewsArticleMenu
         {
             if ((!(m_newsArticleMenu)))
