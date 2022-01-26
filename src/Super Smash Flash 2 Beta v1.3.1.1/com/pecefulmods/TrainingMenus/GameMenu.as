@@ -82,11 +82,7 @@
 		
 		public function buffer_CHANGE(value:String):void
 		{
-			if(value == "Offline")
-			{
-				GameController.currentGame.LevelData.inputBuffer = 0;
-			}
-			else if(value == "Low")
+			if(value == "Low")
 			{
 				GameController.currentGame.LevelData.inputBuffer = 2;
 			}
@@ -97,6 +93,10 @@
 			else if(value == "High")
 			{
 				GameController.currentGame.LevelData.inputBuffer = 4;
+			}			
+			else if(value == "Offline")
+			{
+				GameController.currentGame.LevelData.inputBuffer = 0;
 			}
 			trace(GameController.currentGame.LevelData.inputBuffer)
 		}
