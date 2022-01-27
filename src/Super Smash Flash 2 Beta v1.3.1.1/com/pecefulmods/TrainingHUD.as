@@ -1,4 +1,4 @@
-﻿package com.pecefulmods
+package com.pecefulmods
 {
 	
 	import com.mcleodgaming.ssf2.menus.*;
@@ -24,7 +24,7 @@
 	import flash.events.MouseEvent;
 	import flash.events.EventDispatcher;
 	import com.pecefulmods.DrawingShapes; 
-	
+	import com.mcleodgaming.ssf2.util.*;
 	import com.mcleodgaming.ssf2.audio.SoundQueue;
 	import com.pecefulmods.TrainingMenus.*;
 	import flash.geom.ColorTransform;
@@ -39,6 +39,7 @@
 		public var container = new MovieClip(); 
 		public var _containerWidth = 180;
 		public var Background:Sprite;
+		public var m_setKey:MovieClip;
 		public static var BETA_ON:Boolean = false;
 		
 		private var buttonsMenu:Vector.<MovieClip>;
@@ -47,9 +48,10 @@
 		private var setsave:Boolean = false;
 		private var m_homeMenuMapper:MenuMapper;
 		public var m_switchMenu:Boolean;
+		public var m_keyblocker:Boolean = true;
+		public var m_keybutton:MovieClip;
 		private var showvisual:Boolean;
 		public var m_hud:*;
-		private var blocker:Boolean;
 		
 		public function TrainingHUD()
 		{	
@@ -63,9 +65,9 @@
 			buttonsMenu = new Vector.<MovieClip>();
 			MapperButtons = new Vector.<MenuMapperNode>();
 			
-			buttonsMenu.push(createButton("Game", 0 , _containerWidth));
-			buttonsMenu.push(createButton("Character", 0 , _containerWidth));
-			buttonsMenu.push(createButton("CPU", 0 , _containerWidth));
+			//buttonsMenu.push(createButton("Game", 0 , _containerWidth));
+			buttonsMenu.push(createButton("CPU", 0 , _containerWidth, new CPUMenu(this)));
+			buttonsMenu.push(createButton("Display (Soon™)", 0 , _containerWidth));
 			buttonsMenu.push(createButton("Stage", 0 , _containerWidth, new StageMenu(this)));
 			buttonsMenu.push(createButton("Options", 0 , _containerWidth, new GameMenu(this)));
 			
@@ -77,6 +79,8 @@
 			this.makeEvents();
 			MultiplayerManager.makeNotifier();
 			Main.Root.stage.addEventListener(KeyboardEvent.KEY_DOWN, this.menuswitch);
+			
+			
 			
 
 		}
@@ -124,7 +128,7 @@
 		
 		override public function manageMenuMappings(e:Event):void
         {
-            if (((((GameController.stageData) && (GameController.stageData.FreezeKeys)) && (GameController.stageData.GameRef.GameMode == Mode.TRAINING)) && (!(this.m_homeMenuMapper == null)) && (this.m_switchMenu == true)))
+            if (((((GameController.stageData) && (GameController.stageData.FreezeKeys)) && (GameController.stageData.GameRef.GameMode == Mode.TRAINING)) && (!(this.m_homeMenuMapper == null)) && (this.m_switchMenu == true) && (this.m_keyblocker == true)))
             {
                 super.manageMenuMappings(e);
             }
@@ -142,9 +146,9 @@
         	}
         	if (e.keyCode === Key.TAB)
         	{
-        		if (container.visible == true)
+        		if (this.m_switchMenu == true)
         		{
-        			container.visible = false;
+        			//container.visible = false;
         			m_hud.m_switchMenu = true;
         			m_hud.showTrainingDisplay();
         			this.m_switchMenu = false;
@@ -153,27 +157,65 @@
         		{
         			container.visible = true;
         			m_hud.m_switchMenu = false;
-        			m_hud.temphide = false;
+        			//m_hud.temphide = false;
         			this.m_switchMenu = true;
         		}
+
         	}
+        }
+
+        private function menukeyset(e:KeyboardEvent):void
+        {
+            var newKey:Number = e.keyCode;
+            controller = SaveData.Controllers[0];
+            if (((!(Utils.KEY_ARR[newKey] == undefined)) && (!(Utils.KEY_ARR[newKey] == null))))
+            {
+                if (newKey != 27)
+                {
+                    if (newKey == 46)
+                    {
+						m_keybutton.txt1.text = "N/A";
+						m_keybutton.txt1.setTextFormat(m_keybutton.text1format)
+						m_keybutton.txt1.textColor = 0xFFFFFF;
+						m_keybutton.func_CLICK_OBJ(-1);
+						trace("unsetinput");
+                    }
+                    else if (newKey == controller.KeyboardInstance.ControlsMap[controller._BUTTON1] || newKey == controller.KeyboardInstance.ControlsMap[controller._START])
+                    {
+                    	//Do nothing
+                    }
+                    else
+                    {
+						m_keybutton.txt1.text = Utils.KEY_ARR[newKey];
+						m_keybutton.txt1.setTextFormat(m_keybutton.text1format)
+						m_keybutton.txt1.textColor = 0xFFFFFF;
+						m_keybutton.func_CLICK_OBJ(newKey);
+                        trace("Set put here");
+                    };
+                };
+				m_setKey.visible = false;
+				this.m_keyblocker = true; 
+				trace("Exit menu code here");
+				Main.Root.stage.removeEventListener(KeyboardEvent.KEY_DOWN, this.menukeyset);
+
+            };
+        
         }
 
 		public function showTrainingDisplay():void
         {
-        	if (m_switchMenu == false)
-        	{
-        		container.visible = false;
-        		m_hud.showTrainingDisplay();
-        		showvisual = true;
-        		return;
-        	}
+        	// if (m_switchMenu == false)
+        	// {
+        		
+        	// 	return;
+        	// }
             if ((!(GameController.stageData)))
             {
                 return;
             };
            container.visible = true;
-           showvisual = true
+		m_hud.showTrainingDisplay();
+		showvisual = true;
 
         }
 
@@ -276,10 +318,6 @@
 				txt1.width = _width;
 				txt1.height = 19;
 				txt1.y = 3
-				
-				
-
-			
 
 				if (type == 2 || type == 3)
 				{	
@@ -412,6 +450,10 @@
                 i.removeEventListener(MouseEvent.MOUSE_OVER, this.menu_OVER);
 				i.removeEventListener(MouseEvent.MOUSE_OUT, this.menu_MOUSE_OUT);
 				i.removeEventListener(MouseEvent.CLICK, i.func_CLICK);
+				if (i.MenuLink != null)
+				{
+					i.MenuLink.killEvents();
+				}
             };
             Main.Root.stage.removeEventListener(KeyboardEvent.KEY_DOWN, this.menuswitch);
             Main.Root.stage.removeEventListener(Event.ENTER_FRAME, manageMenuMappings);
@@ -437,8 +479,8 @@
 			{
 				mc = m_menuMapper.currentNode.clip;
 			}
-			
-			
+
+
 			var ct:ColorTransform = new ColorTransform();
 			ct.color = 0xFFFFFF;
 			ct.alphaMultiplier = .56;
@@ -458,7 +500,7 @@
 		public function menu_PREV(e:MouseEvent):void
 		{
 			var mc = this.movieClipFinder(e);
-			if (mc == null || mc.buttonlist == null) { return; }
+			if (mc == null || mc.buttonlist == null || mc.type == 3) { return; }
 			
 			mc.pointer--
 			
@@ -476,7 +518,7 @@
 		{
 			var mc = this.movieClipFinder(e);
 			
-			if (mc == null || mc.buttonlist == null) { return; }
+			if (mc == null || mc.buttonlist == null || mc.type == 3) { return; }
 			mc.pointer++
 			if (mc.pointer > (mc.buttonlist.length - 1 ))
 			{
@@ -543,10 +585,14 @@
 			}
 			else if (mc.type == 3)
 			{
-				mc.txt1.text = mc.func_CLICK_OBJ();
-				mc.txt1.setTextFormat(mc.text1format)
-				mc.txt1.textColor = 0xFFFFFF;
-		}
+				// If working on this again change this so that it works with menu
+				Main.Root.stage.addEventListener(KeyboardEvent.KEY_DOWN, this.menukeyset);
+				m_setKey.visible = true; //Opens the Key setter
+				this.m_keyblocker = false; // Pauses the Menu mapper from changing focus 
+				mc.m_prevblock = true;
+				this.m_keybutton = mc; //Save the button focus for later so it can change once the key comes in 
+
+			}
 			SoundQueue.instance.playSoundEffect("menu_select");
 		
 		}
@@ -557,6 +603,12 @@
 
 			if (m_menuMapper == this.m_homeMenuMapper)
 			{
+				return;
+			}
+
+			if (mc.m_prevblock != null && mc.m_prevblock == true)
+			{
+				mc.m_prevblock = false;
 				return;
 			}
 	

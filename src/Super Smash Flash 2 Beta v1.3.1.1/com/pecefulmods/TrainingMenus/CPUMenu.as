@@ -26,8 +26,10 @@
 	import com.mcleodgaming.ssf2.menus.MenuMapper;
 	import com.pecefulmods.DrawingShapes;
 	import com.mcleodgaming.ssf2.controllers.GameController;	
+	import com.mcleodgaming.ssf2.engine.AI;
+	import com.mcleodgaming.ssf2.menus.HudMenu;
 	
-	public class GameMenu 
+	public class CPUMenu 
 	{
 		
 		public static var hitLag:Boolean = true;
@@ -35,27 +37,23 @@
 		private var MapperButtons:Vector.<MenuMapperNode>;
 		private var m_menuMapper:MenuMapper;
 		
-		public function GameMenu(traininghud:TrainingHUD):void
+		public function CPUMenu(traininghud:TrainingHUD):void
 		{	
 			buttonsMenu = new Vector.<MovieClip>();
 			MapperButtons = new Vector.<MenuMapperNode>();
 			m_trainingHud = traininghud;
 			
 		
-			var m_offlineBuffer = ["Low (2f)", "Normal (3f)", "High (4f)", "Offline (0f)"];
+			var m_diMenu = ["No DI", "DI Up", "DI Down", "DI Left", "DI Right", "DI UpLeft", "DI UpRight", "DI DownLeft", "DI DownRight", "Random"];
+			var m_techMenu = ["None", "Left", "Right", "In Place" ,"Random"];
 			
-			buttonsMenu.push(m_trainingHud.createButton("Hitboxes", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK, null));
-			buttonsMenu.push(m_trainingHud.createButton("HitStun", 1 , m_trainingHud._containerWidth,null,this.hitstun_CLICK, null));
-			// buttonsMenu.push(m_trainingHud.createButton("Offline Buffer", 2 , m_trainingHud._containerWidth,null,this.buffer_CHANGE, null, m_offlineBuffer));
-			// buttonsMenu.push(m_trainingHud.createButton("DI Lines (Not made)", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK, null));
-			// buttonsMenu.push(m_trainingHud.createButton("Position Reset (Not made)", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK, null));
+	
+			buttonsMenu.push(m_trainingHud.createButton("DI", 2 , m_trainingHud._containerWidth,null,this.di_CHANGE, null, m_diMenu));
+			buttonsMenu.push(m_trainingHud.createButton("Permanant Shield", 1 , m_trainingHud._containerWidth,null,this.shieldPerm_CLICK, null));
+			buttonsMenu.push(m_trainingHud.createButton("Shield Grabbing", 1 , m_trainingHud._containerWidth,null,this.shieldGrab_CLICK, null));
+			buttonsMenu.push(m_trainingHud.createButton("Tech", 2 , m_trainingHud._containerWidth,null,this.tech_CHANGE, null, m_techMenu));
 			m_menuMapper = m_trainingHud.initMenuMapping(MapperButtons,buttonsMenu);
 
-		}
-
-		public function menuswitch():void
-		{
-			
 		}
 
 		public function get buttonmenu():Object
@@ -69,42 +67,31 @@
 		}
 		
 		
-		public function hitboxes_CLICK(ON:Boolean):void
+		public function shieldPerm_CLICK(ON:Boolean):void
 		{
-			InteractiveSprite.SHOW_HITBOXES = ON;
-			Main.fixFocus();
+			HudMenu.PermanantShieldCPU = ON;
 		}
 
-		public function hitstun_CLICK(ON:Boolean):void
+		public function shieldGrab_CLICK(ON:Boolean):void
 		{
-			hitLag = ON;
+			 AI.CPUShieldGrabbing = ON;
 		}
 		
-		public function buffer_CHANGE(value:String):void
+		public function tech_CHANGE(value:String):void
 		{
-			if(value == "Offline")
-			{
-				GameController.currentGame.LevelData.inputBuffer = 0;
-			}
-			else if(value == "Low")
-			{
-				GameController.currentGame.LevelData.inputBuffer = 2;
-			}
-			else if(value == "Normal")
-			{
-				GameController.currentGame.LevelData.inputBuffer = 3;
-			}
-			else if(value == "High")
-			{
-				GameController.currentGame.LevelData.inputBuffer = 4;
-			}
-			trace(GameController.currentGame.LevelData.inputBuffer)
+			AI.TechMode = value;
 		}
+
+		public function di_CHANGE(value:String):void
+		{
+			AI.DIMode = value;
+		}
+
 
 
 		public function killEvents():void
 		{
-			trace("killed game menu events")
+			trace("killed game cpu events")
 			//Main.Root.stage.removeEventListener(KeyboardEvent.KEY_DOWN, this.toggleDebugConsole);
 		}
 		

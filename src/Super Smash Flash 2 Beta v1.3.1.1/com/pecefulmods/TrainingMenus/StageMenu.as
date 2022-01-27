@@ -25,7 +25,8 @@
 	import com.mcleodgaming.ssf2.engine.InteractiveSprite;
 	import com.mcleodgaming.ssf2.menus.MenuMapper;
 	import com.pecefulmods.DrawingShapes;
-	import com.mcleodgaming.ssf2.controllers.GameController;	
+	import com.mcleodgaming.ssf2.controllers.GameController;
+	import com.mcleodgaming.ssf2.util.Utils;
 	
 	public class StageMenu 
 	{
@@ -35,7 +36,11 @@
 		private var MapperButtons:Vector.<MenuMapperNode>;
 		private var m_menuMapper:MenuMapper;
 		private var m_trainingHud:TrainingHUD;
-		private var m_setKey:MovieClip;
+		private var m_loadcode:int = 77;
+		private var m_savecode:int = 88;
+		private var m_positionBool:Boolean = false;
+		private var setsave:Boolean = false;
+		private var char_position:Object =  new Object();
 
 		public function StageMenu(traininghud:TrainingHUD):void
 		{	
@@ -43,15 +48,25 @@
 			MapperButtons = new Vector.<MenuMapperNode>();
 			m_trainingHud = traininghud;
 				
-			buttonsMenu.push(m_trainingHud.createButton("Position Reset ", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK, null));
-			buttonsMenu.push(m_trainingHud.createButton("Load", 3 , m_trainingHud._containerWidth, null, this.loadSet_CLICK, null, ["N/A"]));
-			buttonsMenu.push(m_trainingHud.createButton("Save", 3 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK,null,  ["N/A"]));
+			buttonsMenu.push(m_trainingHud.createButton("Position Reset ", 1 , m_trainingHud._containerWidth,null,this.position_CLICK, null));
+			buttonsMenu.push(m_trainingHud.createButton("Load", 3 , m_trainingHud._containerWidth, null, this.loadSet_CLICK, null, [Utils.KEY_ARR[m_loadcode]]));
+			buttonsMenu.push(m_trainingHud.createButton("Save", 3 , m_trainingHud._containerWidth,null,this.saveSet_CLICK,null,  [Utils.KEY_ARR[m_savecode]]));
 			m_menuMapper = m_trainingHud.initMenuMapping(MapperButtons,buttonsMenu);
 			this.createUI(260,120);
-			m_setKey.visible = false;
+			m_trainingHud.m_setKey.visible = false;
+
+			Main.Root.stage.addEventListener(KeyboardEvent.KEY_DOWN, this.toggleDebugConsole);
 
 		}
 
+		public function keyselect(e:KeyboardEvent):void
+        {
+        	if (m_keyblocker == false)
+        	{
+        		return;
+        	}
+        	
+        }
 
 		public function get buttonmenu():Object
 		{
@@ -64,10 +79,9 @@
 		}
 		
 		
-		public function hitboxes_CLICK(ON:Boolean):void
+		public function position_CLICK(ON:Boolean):void
 		{
-			InteractiveSprite.SHOW_HITBOXES = ON;
-			Main.fixFocus();
+			m_positionBool = ON;
 		}
 
 		public function hitstun_CLICK(ON:Boolean):void
@@ -75,16 +89,21 @@
 			hitLag = ON;
 		}
 
-		public function loadSet_CLICK():String
+		public function loadSet_CLICK(keycode:int):void
 		{
 			
-			m_setKey.visible = true;
-			return "F1";
+			m_loadcode = keycode;
 		}
+		
+		public function saveSet_CLICK(keycode:int):void
+		{
+			m_savecode = keycode;
+		}
+
 
 		public function createUI(_width:int,_height:int):void
 		{
-			m_setKey = new MovieClip()
+			m_trainingHud.m_setKey = new MovieClip()
 			 
 			var format1:TextFormat = new TextFormat();
 
@@ -101,11 +120,12 @@
 			Background.x = 150;
 			Background.y = 80;
 			
+
 			//Background Container 
-			m_setKey.tempx =  Main.Width / 2;
-			m_setKey.tempy =  Main.Height / 2;
-			m_setKey.tempwidth = _width;
-			m_setKey.addChild(Background); 
+			m_trainingHud.m_setKey.tempx =  Main.Width / 2;
+			m_trainingHud.m_setKey.tempy =  Main.Height / 2;
+			m_trainingHud.m_setKey.tempwidth = _width;
+			m_trainingHud.m_setKey.addChild(Background); 
 			
 			//Menu name underline
 			/*var NameLine:Sprite= new Sprite(); //Removed could add later on
@@ -137,7 +157,7 @@
 			footer.setTextFormat(format2);
 			footer.border  = false;
 			footer.borderColor =  0xFFFFFF;
-			footer.width = m_setKey.tempwidth;
+			footer.width = m_trainingHud.m_setKey.tempwidth;
 			footer.height = 19;
 			footer.y = _height - 15;
 
@@ -145,7 +165,7 @@
 
 
 					
-			m_trainingHud.m_stagef.addChild(m_setKey);
+			m_trainingHud.m_stagef.addChild(m_trainingHud.m_setKey);
 			
 		}
 		public function buffer_CHANGE(value:String):void
@@ -171,51 +191,55 @@
 
 		public function toggleDebugConsole(e:KeyboardEvent):void
 		{
-			if (BETA_ON)
+			if (m_positionBool)
 			{
-				if (e.keyCode === Key.F1)
+				var m_stage = m_trainingHud.m_stage;
+				if (e.keyCode === m_savecode)
 				{
-					m_stage.Paused = true;
-					trace("pause")
-
 					 //Set 
-					// char_position.scalev = m_stage.Players[0].getScale();
-					// char_position.dam = m_stage.Players[0].getDamage() ;
-					// char_position.x = m_stage.Players[0].X;
-					// char_position.y = m_stage.Players[0].Y;
-					 
-					// char_position.scale1 = m_stage.Players[1].getScale();
-					// char_position.dam1 = m_stage.Players[1].getDamage();
-					// char_position.x1 = m_stage.Players[1].X;
-					// char_position.y1 = m_stage.Players[1].Y;
-					// char_position.state = m_stage.Players[1].getState() ;
-					// setsave = true;
-				 //  	MultiplayerManager.notify("Saved position");
+					for (var i:int = 0; i < 2 ; i++)
+					{
+						var obj_str:String = "_" + i.toString();
+						trace(obj_str);
+						char_position["scale" + obj_str] = m_stage.Players[i].getScale();
+						char_position["dam" + obj_str]   = m_stage.Players[i].getDamage() ;
+						char_position["x" + obj_str] 	 = m_stage.Players[i].X;
+						char_position["y" + obj_str] 	 = m_stage.Players[i].Y;
+						
+						char_position["facingForward" + obj_str] = m_stage.Players[i].FacingForward;
+					}
+					setsave = true;
+				  	MultiplayerManager.notify("Saved position");
 					
 				};
-				if (e.keyCode === Key.F2)
+				if (e.keyCode === m_loadcode)
 				{
 					 //Get
 					 if (setsave == false)
 					 {
 						 return;
 					 }
-					 
-					 m_stage.Players[0].setScale(char_position.scalev.x,char_position.scalev.y);
-					 m_stage.Players[0].setPosition(char_position.x,char_position.y);
-					 m_stage.Players[0].setDamage(char_position.dam);
-					 
-					 m_stage.Players[1].setScale(char_position.scale1.x,char_position.scale1.y);
-					 m_stage.Players[1].setDamage(char_position.dam1);
-					 m_stage.Players[1].setPosition(char_position.x1,char_position.y1);
-					 m_stage.Players[1].setState(char_position.state);
+					for (var i:int = 0; i < 2 ; i++)
+					{
+						obj_str = "_" + i;
+						m_stage.Players[i].setScale(char_position["scale"  + obj_str].x, char_position["scale"  + obj_str].y);
+						m_stage.Players[i].setDamage(char_position["dam" + obj_str]);
+						m_stage.Players[i].setPosition(char_position["x" + obj_str], char_position["y" + obj_str]);
+						m_stage.Players[i].fliplocation(char_position["facingForward" + obj_str]);
+						//m_stage.Players[i].CharacterStats.importData(char_position["data" + obj_str]);
+					}
+					 //m_stage.Players[1].setState(char_position.state);
 					 MultiplayerManager.notify("Loaded position");
 				};
 			}
 
 			//TODO when adding this put in kill function and init function
-			//Main.Root.stage.addEventListener(KeyboardEvent.KEY_DOWN, this.toggleDebugConsole);
-			//Main.Root.stage.removeEventListener(KeyboardEvent.KEY_DOWN, this.toggleDebugConsole);
+		}
+
+		public function killEvents():void
+		{
+			trace("killed stage menu events")
+			Main.Root.stage.removeEventListener(KeyboardEvent.KEY_DOWN, this.toggleDebugConsole);
 		}
 		
 	}

@@ -4698,7 +4698,7 @@ package com.mcleodgaming.ssf2.engine
                 this.m_freezeKeys = (!(this.m_freezeKeys));
                 if (this.m_freezeKeys)
                 {
-                    //this.HUD.showTrainingDisplay();
+                    this.HUD.showTrainingDisplay();
 					this.m_trainingHud.showTrainingDisplay()
                     list = new Vector.<MovieClip>();
                     p = 0;

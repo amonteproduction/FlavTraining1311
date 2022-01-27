@@ -103,8 +103,10 @@ package com.mcleodgaming.ssf2.engine
         private var m_recoveryAttackList:Vector.<AttackObject>;
         private var m_controlOverrides:Vector.<int>;
 		public var DIMode:String = ""; 
+        public static var TechMode:String = ""; 
 		public var falcoMode:int = Utils.randomInteger(1,3); 
 		public var CPUShieldGrabbing:Boolean; 
+        
 
         public function AI(level:int, player:Character, stageData:StageData)
         {
@@ -1671,18 +1673,36 @@ package com.mcleodgaming.ssf2.engine
             {
                if(!this.m_keys.SHIELD)
                {
-                  this.resetAllKeys();
-                  if(Utils.random() > 0.25)
-                  {
-                     if(this.m_target && this.m_target.CurrentTarget && this.m_target.CurrentTarget.X >= this.m_playerClassInstance.X || Utils.random() < 0.5)
-                     {
+                    this.resetAllKeys();
+                    if ( AI.TechMode == "None")
+                    {
+                        AI.TechMode = "None"
+                        return;
+                    }
+                    else if (AI.TechMode == "Left")
+                    {
+                        AI.TechMode = "Left"
                         this.m_keys.LEFT = true;
-                     }
-                     else
-                     {
+                    }
+                    else if (AI.TechMode == "Right")
+                    {
+                        AI.TechMode = "Right"
                         this.m_keys.RIGHT = true;
-                     }
-                  }
+                    }
+                    else if (AI.TechMode == "Random")
+                    {
+                        if(Utils.random() > 0.25)
+                        {
+                            if(this.m_target && this.m_target.CurrentTarget && this.m_target.CurrentTarget.X >= this.m_playerClassInstance.X || Utils.random() < 0.5)
+                            {
+                                this.m_keys.LEFT = true;
+                            }
+                            else
+                            {
+                                this.m_keys.RIGHT = true;
+                            }
+                        }
+                    }
                }
                this.m_keys.SHIELD = true;
             }
