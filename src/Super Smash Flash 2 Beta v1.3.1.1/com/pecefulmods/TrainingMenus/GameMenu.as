@@ -30,7 +30,7 @@
 	public class GameMenu 
 	{
 		
-		public static var hitLag:Boolean = true;
+		public static var HitStun:Boolean = true;
 		private var buttonsMenu:Vector.<MovieClip>;
 		private var MapperButtons:Vector.<MenuMapperNode>;
 		private var m_menuMapper:MenuMapper;
@@ -77,16 +77,12 @@
 
 		public function hitstun_CLICK(ON:Boolean):void
 		{
-			hitLag = ON;
+			GameMenu.HitStun = ON;
 		}
 		
 		public function buffer_CHANGE(value:String):void
 		{
-			if(value == "Offline")
-			{
-				GameController.currentGame.LevelData.inputBuffer = 0;
-			}
-			else if(value == "Low")
+			if(value == "Low")
 			{
 				GameController.currentGame.LevelData.inputBuffer = 2;
 			}
@@ -97,6 +93,10 @@
 			else if(value == "High")
 			{
 				GameController.currentGame.LevelData.inputBuffer = 4;
+			}			
+			else if(value == "Offline")
+			{
+				GameController.currentGame.LevelData.inputBuffer = 0;
 			}
 			trace(GameController.currentGame.LevelData.inputBuffer)
 		}
