@@ -27,6 +27,7 @@
 	import com.pecefulmods.DrawingShapes;
 	import com.mcleodgaming.ssf2.controllers.GameController;
 	import com.mcleodgaming.ssf2.util.Utils;
+	import com.mcleodgaming.ssf2.util.SaveData;
 	
 	public class StageMenu 
 	{
@@ -36,8 +37,8 @@
 		private var MapperButtons:Vector.<MenuMapperNode>;
 		private var m_menuMapper:MenuMapper;
 		private var m_trainingHud:TrainingHUD;
-		private var m_loadcode:int = 77;
-		private var m_savecode:int = 88;
+		private var m_loadcode:int;
+		private var m_savecode:int;
 		private var m_positionBool:Boolean = false;
 		private var setsave:Boolean = false;
 		private var char_position:Object =  new Object();
@@ -47,8 +48,12 @@
 			buttonsMenu = new Vector.<MovieClip>();
 			MapperButtons = new Vector.<MenuMapperNode>();
 			m_trainingHud = traininghud;
+
+			m_loadcode = SaveData.LoadCode;
+			m_savecode = SaveData.SaveCode;
+			m_positionBool = SaveData.PositionBool;
 				
-			buttonsMenu.push(m_trainingHud.createButton("Position Reset ", 1 , m_trainingHud._containerWidth,null,this.position_CLICK, null));
+			buttonsMenu.push(m_trainingHud.createButton("Position Reset ", 1 , m_trainingHud._containerWidth,null,this.position_CLICK, null, [ ((this.m_positionBool == true) ? "ON" : "OFF" )]));
 			buttonsMenu.push(m_trainingHud.createButton("Load", 3 , m_trainingHud._containerWidth, null, this.loadSet_CLICK, null, [Utils.KEY_ARR[m_loadcode]]));
 			buttonsMenu.push(m_trainingHud.createButton("Save", 3 , m_trainingHud._containerWidth,null,this.saveSet_CLICK,null,  [Utils.KEY_ARR[m_savecode]]));
 			m_menuMapper = m_trainingHud.initMenuMapping(MapperButtons,buttonsMenu);
@@ -91,13 +96,16 @@
 
 		public function loadSet_CLICK(keycode:int):void
 		{
-			
 			m_loadcode = keycode;
+			SaveData.LoadCode = keycode;
+			SaveData.saveGame();
 		}
 		
 		public function saveSet_CLICK(keycode:int):void
 		{
 			m_savecode = keycode;
+			SaveData.SaveCode = keycode;
+			SaveData.saveGame();
 		}
 
 

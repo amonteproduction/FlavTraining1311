@@ -1500,7 +1500,6 @@ package com.mcleodgaming.ssf2.menus
             };
         }
 
-
     }
 }//package com.mcleodgaming.ssf2.menus
 

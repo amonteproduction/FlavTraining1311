@@ -103,7 +103,7 @@ package com.mcleodgaming.ssf2.engine
         private var m_recoveryAttackList:Vector.<AttackObject>;
         private var m_controlOverrides:Vector.<int>;
 		public var DIMode:String = ""; 
-        public static var TechMode:String = ""; 
+        public var TechMode:String = ""; 
 		public var falcoMode:int = Utils.randomInteger(1,3); 
 		public var CPUShieldGrabbing:Boolean; 
         
@@ -1689,7 +1689,7 @@ package com.mcleodgaming.ssf2.engine
                         AI.TechMode = "Right"
                         this.m_keys.RIGHT = true;
                     }
-                    else if (AI.TechMode == "Random")
+                    else if (AI.TechMode == "")
                     {
                         if(Utils.random() > 0.25)
                         {

@@ -1050,6 +1050,57 @@ package com.mcleodgaming.ssf2.util
                 "tcpPort":m_localObject.game.options.tcpPort
             });
         }
+		
+        public static function initTrainingHUD():void
+        {
+            m_localObject.TrainingHUD = new Object();
+            m_localObject.TrainingHUD.savecode = 112;
+            m_localObject.TrainingHUD.loadcode = 113;
+            m_localObject.TrainingHUD.positionBool = true;
+        }
+
+        public static function get PositionBool():Boolean
+        {
+			if (m_localObject.TrainingHUD == null)
+			{
+                initTrainingHUD();
+			}
+            return (m_localObject.TrainingHUD.positionBool);
+        }
+
+        public static function set PositionBool(value:Boolean):void
+        {
+            m_localObject.TrainingHUD.positionBool = value;
+        }
+
+        public static function get SaveCode():int
+        {
+            if (m_localObject.TrainingHUD == null)
+            {
+                initTrainingHUD();
+            }
+            return (m_localObject.TrainingHUD.savecode);
+        }
+
+        public static function set SaveCode(value:int):void
+        {
+            m_localObject.TrainingHUD.savecode = value;
+        }
+
+
+        public static function get LoadCode():int
+        {
+            if (m_localObject.TrainingHUD == null)
+            {
+                initTrainingHUD();
+            }
+            return (m_localObject.TrainingHUD.loadcode);
+        }
+
+        public static function set LoadCode(value:int):void
+        {
+            m_localObject.TrainingHUD.loadcode = value;
+        }
 
         public static function get FinalFormMusic():Boolean
         {

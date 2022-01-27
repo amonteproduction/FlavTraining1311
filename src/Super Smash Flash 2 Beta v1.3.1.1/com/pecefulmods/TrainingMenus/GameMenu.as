@@ -44,8 +44,8 @@
 		
 			var m_offlineBuffer = ["Low (2f)", "Normal (3f)", "High (4f)", "Offline (0f)"];
 			
-			buttonsMenu.push(m_trainingHud.createButton("Hitboxes", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK, null));
-			buttonsMenu.push(m_trainingHud.createButton("HitStun", 1 , m_trainingHud._containerWidth,null,this.hitstun_CLICK, null));
+			buttonsMenu.push(m_trainingHud.createButton("Hitboxes", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK, null,[ ((InteractiveSprite.SHOW_HITBOXES == true) ? "ON" : "OFF" )]));
+			buttonsMenu.push(m_trainingHud.createButton("HitStun", 1 , m_trainingHud._containerWidth,null,this.hitstun_CLICK, null,[ ((GameMenu.HitStun == true) ? "ON" : "OFF" )]));
 			// buttonsMenu.push(m_trainingHud.createButton("Offline Buffer", 2 , m_trainingHud._containerWidth,null,this.buffer_CHANGE, null, m_offlineBuffer));
 			// buttonsMenu.push(m_trainingHud.createButton("DI Lines (Not made)", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK, null));
 			// buttonsMenu.push(m_trainingHud.createButton("Position Reset (Not made)", 1 , m_trainingHud._containerWidth,null,this.hitboxes_CLICK, null));

@@ -225,7 +225,7 @@ package com.pecefulmods
            showvisual = false
         }
 		
-		public function createButton(name:String = "null",type:int = 0, _width:int=0,LinkObj:* = null,funcClick:Function = null, funcBack:Function = null, buttonList:Array = null):MovieClip
+		public function createButton(name:String = "null",type:int = 0, _width:int=0,LinkObj:* = null,funcClick:Function = null, funcBack:Function = null, defualButtons:Array = null):MovieClip
 		{
 			var buttonContainer = new MovieClip();
 			buttonContainer.func_CLICK = menu_CLICK;
@@ -310,8 +310,8 @@ package com.pecefulmods
 				
 				var txt1:TextField = new TextField();
 				txt1.selectable = false;
-				txt1.text = "OFF";
-				txt1.textColor = 0xFFFFFF;
+				txt1.text = ((defualButtons != null) ? defualButtons[0] : "OFF"); 
+				txt1.textColor = ((defualButtons != null && defualButtons[0] == "ON") ? 0x57EEFF : 0xFFFFFF); 
 				txt1.setTextFormat(format2);
 				txt1.border  = false;
 				txt1.borderColor =  0xFFFFFF;
@@ -323,7 +323,7 @@ package com.pecefulmods
 				{	
 					txt1 = new TextField();
 					txt1.selectable = false;
-					txt1.text = buttonList[0];
+					txt1.text = defualButtons[0];
 					txt1.textColor = 0xFFFFFF;
 					txt1.setTextFormat(format2);
 					txt1.border  = false;
@@ -332,7 +332,7 @@ package com.pecefulmods
 					txt1.height = 19;
 					txt1.y = 3
 					
-					buttonContainer.buttonlist = buttonList;
+					buttonContainer.buttonlist = defualButtons;
 					buttonContainer.pointer = 0;
 				}
 				
