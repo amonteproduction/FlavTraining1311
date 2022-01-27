@@ -63,7 +63,7 @@ package com.mcleodgaming.ssf2.engine
     import com.mcleodgaming.ssf2.menus.MatchResultsMenu;
     import com.mcleodgaming.ssf2.util.ControlsObject;
     import com.mcleodgaming.ssf2.items.Item;
-	import com.pecefulmods.TrainingHUD;
+    import com.pecefulmods.*;
     import com.mcleodgaming.ssf2.assists.AssistTrophy;
     import com.mcleodgaming.ssf2.controllers.MatchResults;
     import com.mcleodgaming.ssf2.util.*;
@@ -146,7 +146,8 @@ package com.mcleodgaming.ssf2.engine
         private var m_onlineModeLastPing:Number;
         private var m_onlineMatchControlsTimer:Timer;
         private var m_activeScripts:Boolean;
-        private var m_fpsTimer:Debug_fps;
+        //private var m_fpsTimer:Debug_fps;
+        private var m_fpsTimer:Debug_fps_New;
         private var m_noContest:Boolean;
         private var m_retryMatch:Boolean;
         private var m_pokemonCount:int;
@@ -1432,7 +1433,8 @@ package com.mcleodgaming.ssf2.engine
             };
             if (((Main.DEBUG) && (true)))
             {
-                this.m_fpsTimer = new Debug_fps(this.STAGE.stage, new Point());
+                //this.m_fpsTimer = new Debug_fps(this.STAGE.stage, new Point());
+                this.m_fpsTimer = new Debug_fps_New(this.STAGE.stage, new Point(),this);
             };
             if (SpecialMode.modeEnabled(this.GAME.LevelData.specialModes, SpecialMode.SLOW))
             {
@@ -1960,7 +1962,7 @@ package com.mcleodgaming.ssf2.engine
             this.m_gameEndedExit = true;
              if (this.m_fpsTimer)
             {
-                //this.m_fpsTimer.kill();
+                this.m_fpsTimer.kill();
                 //if (m_trainingHud)
                 //{
                     //m_trainingHud.kill();
