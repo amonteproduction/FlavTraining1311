@@ -825,7 +825,7 @@ package com.mcleodgaming.ssf2.engine
                 this.resetAllKeys();
                 if ((!(this.m_playerClassInstance.inState(CState.CRASH_LAND))))
                 {
-					if(!this.m_action == MARTH_KILLER){
+					if(!this.m_action == CPUState.MARTH_KILLER){
                     this.checkBoundaries();
 					}
                 }

@@ -50,6 +50,7 @@ package com.mcleodgaming.ssf2.enums
             statesArr.push("FORCE_RUN");
             statesArr.push("FORCE_DO_NOTHING");
             statesArr.push("FALCO_LASER_PRACTICE");
+            statesArr.push("MARTH_KILLER");			
 			statesArr.push("FOX_THROW");
 			statesArr.push("SDI_PRACTICE");
 			statesArr.push("ICHIGO_UPB");
