@@ -45,13 +45,13 @@
 			
 		
 			var m_diMenu = ["No DI", "DI Up", "DI Down", "DI Left", "DI Right", "DI UpLeft", "DI UpRight", "DI DownLeft", "DI DownRight", "Random"];
-			var m_techMenu = ["None", "Left", "Right", "In Place" ,"Random"];
+			// var m_techMenu = ["None", "Left", "Right", "In Place" ,"Random"];
 			
 	
 			buttonsMenu.push(m_trainingHud.createButton("DI", 2 , m_trainingHud._containerWidth,null,this.di_CHANGE, null, m_diMenu));
-			buttonsMenu.push(m_trainingHud.createButton("Permanant Shield", 1 , m_trainingHud._containerWidth,null,this.shieldPerm_CLICK, null));
-			buttonsMenu.push(m_trainingHud.createButton("Shield Grabbing", 1 , m_trainingHud._containerWidth,null,this.shieldGrab_CLICK, null));
-			buttonsMenu.push(m_trainingHud.createButton("Tech", 2 , m_trainingHud._containerWidth,null,this.tech_CHANGE, null, m_techMenu));
+			// buttonsMenu.push(m_trainingHud.createButton("Permanant Shield", 1 , m_trainingHud._containerWidth,null,this.shieldPerm_CLICK, null));
+			// buttonsMenu.push(m_trainingHud.createButton("Shield Grabbing", 1 , m_trainingHud._containerWidth,null,this.shieldGrab_CLICK, null));
+			// buttonsMenu.push(m_trainingHud.createButton("Tech", 2 , m_trainingHud._containerWidth,null,this.tech_CHANGE, null, m_techMenu));
 			m_menuMapper = m_trainingHud.initMenuMapping(MapperButtons,buttonsMenu);
 
 		}

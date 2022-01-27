@@ -1,4 +1,4 @@
-package com.pecefulmods
+﻿package com.pecefulmods
 {
 	
 	import com.mcleodgaming.ssf2.menus.*;
@@ -68,8 +68,8 @@ package com.pecefulmods
 			//buttonsMenu.push(createButton("Game", 0 , _containerWidth));
 			buttonsMenu.push(createButton("CPU", 0 , _containerWidth, new CPUMenu(this)));
 			buttonsMenu.push(createButton("Display (Soon™)", 0 , _containerWidth));
-			buttonsMenu.push(createButton("Stage", 0 , _containerWidth, new StageMenu(this)));
-			buttonsMenu.push(createButton("Options", 0 , _containerWidth, new GameMenu(this)));
+			buttonsMenu.push(createButton("Position Reset", 0 , _containerWidth, new StageMenu(this)));
+			buttonsMenu.push(createButton("Options (Hitbox/Hitstun)", 0 , _containerWidth, new GameMenu(this)));
 			
 			m_menuMapper = this.m_homeMenuMapper = this.initMenuMapping(MapperButtons,buttonsMenu);
 			this.createUI(_containerWidth);
@@ -148,6 +148,7 @@ package com.pecefulmods
         	{
         		if (this.m_switchMenu == true)
         		{
+					SoundQueue.instance.playSoundEffect("menu_selectstage");
         			//container.visible = false;
         			m_hud.m_switchMenu = true;
         			m_hud.showTrainingDisplay();
@@ -155,6 +156,7 @@ package com.pecefulmods
         		}
         		else
         		{
+					SoundQueue.instance.playSoundEffect("menu_selectstage");					
         			container.visible = true;
         			m_hud.m_switchMenu = false;
         			//m_hud.temphide = false;
