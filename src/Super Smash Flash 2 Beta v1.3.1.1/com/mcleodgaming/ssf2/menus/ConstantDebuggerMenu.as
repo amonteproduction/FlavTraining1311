@@ -29,9 +29,9 @@ package com.mcleodgaming.ssf2.menus
             m_container.addChild(m_subMenu);
             m_subMenu.x = (Main.Width / 2);
             m_subMenu.y = (Main.Height / 2);
-            m_subMenu.visible = Main.DEBUG;
+            m_subMenu.visible = false;
             m_subMenu.stuff.visible = false;
-            m_subMenu.cpubox.visible = true;
+            m_subMenu.cpubox.visible = false;
             m_subMenu.tabChildren = false;
             m_subMenu.tabEnabled = false;
         }
