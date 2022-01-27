@@ -264,7 +264,7 @@
 				txt.setTextFormat(format1);
 				txt.border  = false;
 				txt.borderColor =  0xFFFFFF;
-				txt.width = container.tempwidth;
+				txt.width = _width;
 				txt.height = 19;
 				txt.y = 3
 
