@@ -685,7 +685,7 @@ package com.mcleodgaming.ssf2.menus
             this.m_cpuAction--;
             if (this.m_cpuAction < -2)
             {
-                this.m_cpuAction = 18;
+                this.m_cpuAction = 19;
             };
             var p:int = 1;
             while (p < GameController.stageData.Players.length)
@@ -710,7 +710,7 @@ package com.mcleodgaming.ssf2.menus
         public function next_cpuAction_CLICK(e:MouseEvent):void
         {
             this.m_cpuAction++;
-            if (this.m_cpuAction > 18)
+            if (this.m_cpuAction > 19)
             {
                 this.m_cpuAction = -2;
             };

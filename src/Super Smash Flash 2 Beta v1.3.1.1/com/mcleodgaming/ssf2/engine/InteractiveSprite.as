@@ -4500,6 +4500,9 @@ package com.mcleodgaming.ssf2.engine
                     };
                 };
                 tmpMC = this.STAGEDATA.attachEffect(id, options);
+			if((((id is String) && (!(id.match(/^global_/)))))){
+				this.applyPalette(tmpMC);
+			}	
                 if (tmpMC)
                 {
                     if (resize)

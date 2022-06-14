@@ -24,6 +24,10 @@
 	import com.pecefulmods.TrainingHUD;
 	import com.mcleodgaming.ssf2.engine.InteractiveSprite;
 	import com.mcleodgaming.ssf2.menus.MenuMapper;
+	import com.mcleodgaming.ssf2.controllers.MenuController;
+	   import com.mcleodgaming.ssf2.util.Controller;
+   import com.mcleodgaming.ssf2.util.ControlsObject;	
+	import com.mcleodgaming.ssf2.menus.DebugConsole;
 	import com.pecefulmods.DrawingShapes;
 	import com.mcleodgaming.ssf2.controllers.GameController;
 	import com.mcleodgaming.ssf2.util.Utils;
@@ -36,6 +40,7 @@
 		private var buttonsMenu:Vector.<MovieClip>;
 		private var MapperButtons:Vector.<MenuMapperNode>;
 		private var m_menuMapper:MenuMapper;
+		private var damnIsItTrue:Boolean = true;
 		private var m_trainingHud:TrainingHUD;
 		private var m_loadcode:int;
 		private var m_savecode:int;
@@ -61,6 +66,7 @@
 			m_trainingHud.m_setKey.visible = false;
 
 			Main.Root.stage.addEventListener(KeyboardEvent.KEY_DOWN, this.toggleDebugConsole);
+						trace(GameController.currentGame.LevelData.inputBuffer);
 
 		}
 
@@ -204,6 +210,13 @@
 				var m_stage = m_trainingHud.m_stage;
 				if (e.keyCode === m_savecode)
 				{
+					if(this.damnIsItTrue == true){
+							MenuController.debugConsole.ReplayPlayback = false;
+						MenuController.debugConsole.ControlsCapture = true;
+					}
+					else{
+						MenuController.debugConsole.ControlsCapture = false;
+					};
 					 //Set 
 					for (var i:int = 0; i < 2 ; i++)
 					{
@@ -217,6 +230,7 @@
 						char_position["facingForward" + obj_str] = m_stage.Players[i].FacingForward;
 					}
 					setsave = true;
+					this.damnIsItTrue = !this.damnIsItTrue;
 				  	MultiplayerManager.notify("Saved position");
 					
 				};
@@ -237,7 +251,10 @@
 						//m_stage.Players[i].CharacterStats.importData(char_position["data" + obj_str]);
 					}
 					 //m_stage.Players[1].setState(char_position.state);
+											MenuController.debugConsole.ControlsCapture = false;
+															MenuController.debugConsole.ReplayPlayback = true;
 					 MultiplayerManager.notify("Loaded position");
+					MenuController.debugConsole.myresetPointers();
 				};
 			}
 

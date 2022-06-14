@@ -147,7 +147,7 @@ package com.mcleodgaming.ssf2.engine
 			this.m_falcoTimer5 = new FrameTimer(14);
 			this.m_falcoTimer6 = new FrameTimer(5);		
 			this.m_falcoTimer7 = new FrameTimer(3);				
-			this.m_marthtimer = new FrameTimer(21);
+			this.m_marthtimer = new FrameTimer(18);
 			this.m_evadeOverrideTimer = new FrameTimer(30);
             this.m_beaconTimer = new FrameTimer(150);
             this.m_jumpTimer = new FrameTimer(5);
@@ -700,7 +700,9 @@ package com.mcleodgaming.ssf2.engine
 											this.m_keys.SHIELD = true;
 											if(Character.AIShieldGrabCPU == 2 && AI.CPUShieldGrabbing)
 											{
-											   this.m_keys.BUTTON2 = true;
+                                                            this.m_keys.JUMP = true;
+											   this.m_keys.UP = true;
+												this.m_keys.BUTTON1 = true;
 											   Character.AIShieldGrabCPU = 0;
 											}
 											this.m_action = CPUState.SHIELD;

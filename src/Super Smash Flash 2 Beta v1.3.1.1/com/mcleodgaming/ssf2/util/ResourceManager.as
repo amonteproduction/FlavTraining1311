@@ -1293,7 +1293,7 @@ package com.mcleodgaming.ssf2.util
 	"modes": {
 		"event_mode": {
 			"guid": "d56c1d3c-f0dd-4c56-9dc4-6afe72a0de39",
-			"file": "event_mode.ssf",
+			"file": "event_mode.swf",
 			"file_pub": "DAT30.ssf"
 		},
 		"homeruncontest_mode": {

@@ -6,6 +6,8 @@
 package com.mcleodgaming.ssf2.engine
 {
     import com.mcleodgaming.ssf2.Version;
+	import com.mcleodgaming.ssf2.menus.DebugConsole;
+	import com.mcleodgaming.ssf2.controllers.MenuController;
     import com.mcleodgaming.ssf2.enums.Mode;
 
     public class ReplayData 
@@ -152,10 +154,12 @@ package com.mcleodgaming.ssf2.engine
             {
                 this.m_controlsData[(pid - 1)][(this.m_controlsData[(pid - 1)].length - 1)]++;
             };
+						trace(this.m_controlsData);
         }
 
         public function retrieveControls(pid:int):int
         {
+			trace(this.m_controlsData);
             return (this.m_controlsData[(pid - 1)][this.m_controlsPointers[(pid - 1)].index]);
         }
 

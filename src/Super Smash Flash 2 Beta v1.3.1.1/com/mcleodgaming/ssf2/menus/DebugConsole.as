@@ -47,6 +47,8 @@ package com.mcleodgaming.ssf2.menus
         private var MAX_HISTORY:int = 75;
         private var m_enabled:Boolean;
         private var m_input:TextField;
+		private var m_mycontrolsData:Array;
+		        private var m_mycontrolsPointers:Array;
         private var m_output:TextField;
         private var m_history:Array;
         private var m_historyIndex:int;
@@ -55,6 +57,7 @@ package com.mcleodgaming.ssf2.menus
         private var m_enterReleased:Boolean;
         private var m_upReleased:Boolean;
         private var m_downReleased:Boolean;
+		private var m_replayPlayback:Boolean;
         private var m_controlsCapture:Boolean;
         private var m_onlineCapture:Boolean;
         private var m_pingCapture:Boolean;
@@ -94,11 +97,20 @@ package com.mcleodgaming.ssf2.menus
             this.m_upReleased = true;
             this.m_downReleased = true;
             this.m_alerts = false;
+            this.m_replayPlayback = false;
             this.m_controlsCapture = false;
             this.m_onlineCapture = false;
             this.m_disableKeyCapture = true;
             this.m_attackStateCapture = false;
             this.m_knockbackCapture = false;
+            this.m_mycontrolsData = [];           
+		    i = 0;			
+			while (i < 2)
+            {
+                this.m_mycontrolsData.push([]);
+                i++;
+            };
+            this.m_mycontrolsPointers = null;
             if (Main.DEBUG)
             {
                 Main.Root.stage.addEventListener(KeyboardEvent.KEY_DOWN, this.toggleDebugConsole);
@@ -109,7 +121,22 @@ package com.mcleodgaming.ssf2.menus
         {
             return (this.m_controlsCapture);
         }
+		
+        public function set ControlsCapture(value:Boolean):void
+        {
+            this.m_controlsCapture = value;
+        }	
+		
+        public function get ReplayPlayback():Boolean
+        {
+            return (this.m_replayPlayback);
+        }
 
+		public function set ReplayPlayback(value:Boolean):void
+        {
+            this.m_replayPlayback = value;
+        }
+		
         public function get DisableKeyCapture():Boolean
         {
             return (this.m_disableKeyCapture);
@@ -199,7 +226,62 @@ package com.mcleodgaming.ssf2.menus
                 this.m_enabled = true;
             };
         }
+		
+        public function mypushControls(pid:int, controls:int):void
+        {
+            if (((this.m_mycontrolsData[(pid - 1)].length <= 0) || (!(controls == this.m_mycontrolsData[(pid - 1)][(this.m_mycontrolsData[(pid - 1)].length - 2)]))))
+            {
+                this.m_mycontrolsData[(pid - 1)].push(controls);
+                this.m_mycontrolsData[(pid - 1)].push(1);
+            }
+            else
+            {
+                this.m_mycontrolsData[(pid - 1)][(this.m_mycontrolsData[(pid - 1)].length - 1)]++;
+            };
+			trace(this.m_mycontrolsData);
+        }		
+		
+        public function myresetPointers():void
+        {
+            this.m_mycontrolsPointers = new Array();
+            var i:int;
+            while (i < this.m_mycontrolsData.length)
+            {
+                this.m_mycontrolsPointers.push({
+                    "index":0,
+                    "total":((this.m_mycontrolsData[i].length) ? this.m_mycontrolsData[i][1] : 0)
+                });
+                i++;
+            };
+        }		
+		
+        public function myretrieveControls(pid:int):int
+        {
+												trace(this.m_mycontrolsData);
+            return (this.m_mycontrolsData[(pid - 1)][this.m_mycontrolsPointers[(pid - 1)].index]);
+        }		
 
+        public function mynextControls():void
+        {
+            var i:int;
+            while (i < this.m_mycontrolsPointers.length)
+            {
+                if (this.m_mycontrolsData[i].length)
+                {
+                    this.m_mycontrolsPointers[i].total--;
+                    if (this.m_mycontrolsPointers[i].total <= 0)
+                    {
+                        this.m_mycontrolsPointers[i].index = (this.m_mycontrolsPointers[i].index + 2);
+                        if (this.m_mycontrolsPointers[i].index < this.m_mycontrolsData[i].length)
+                        {
+                            this.m_mycontrolsPointers[i].total = this.m_mycontrolsData[i][(this.m_mycontrolsPointers[i].index + 1)];
+                        };
+                    };
+                };
+                i++;
+            };
+        }		
+		
         private function toggleDebugConsole(e:KeyboardEvent):void
         {
             if ((!(Main.DEBUGAUTHED)))
@@ -418,7 +500,7 @@ package com.mcleodgaming.ssf2.menus
             {
                 if (args[0] == "controls")
                 {
-                    if (this.m_controlsCapture)
+                    if (this.m_controlsCapture || this.m_replayPlayback)
                     {
                         this.m_controlsCapture = false;
                         this.writeLine("controls capture stopped");

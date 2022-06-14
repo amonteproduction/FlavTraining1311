@@ -393,7 +393,7 @@ package com.mcleodgaming.ssf2.engine
             m_state = CState.IDLE;
             tmpMC.player_id = m_player_id;
             tmpMC.uid = m_uid;
-			if(STAGEDATA.GameRef.GameMode == Mode.EVENT && this.m_playerSettings.character == "marth" && this.m_playerSettings.costume == 3 ) {
+			if(STAGEDATA.GameRef.GameMode == Mode.EVENT && this.m_playerSettings.character == "link" && this.m_playerSettings.costume == 3 ) {
             m_sprite.x = 85;
             m_sprite.y = 86;
 			}
@@ -15998,6 +15998,7 @@ package com.mcleodgaming.ssf2.engine
             };
             if (((((m_player_id == 1) && (Main.DEBUG)) && (MenuController.debugConsole)) && (MenuController.debugConsole.ControlsCapture)))
             {
+				MenuController.debugConsole.mypushControls(2, this.m_key.getControlsObject().controls);
                 bits = this.m_key.getControlsObject().controls;
                 if (((this.m_attackControlsArr.length == 0) || ((this.m_attackControlsArr.length > 1) && (!(bits == this.m_attackControlsArr[(this.m_attackControlsArr.length - 2)])))))
                 {
@@ -16006,6 +16007,10 @@ package com.mcleodgaming.ssf2.engine
                 };
                 this.m_attackControlsArr[(this.m_attackControlsArr.length - 1)]++;
             };
+            if(MenuController.debugConsole.ReplayPlayback == true){
+					this.m_key.setControlsObject(new ControlsObject(MenuController.debugConsole.myretrieveControls(2)));
+					MenuController.debugConsole.mynextControls();
+				};
             this.m_fallthroughTimer.tick();
             if (((this.m_fallthroughTimer.IsComplete) || (m_ySpeed < 0)))
             {
@@ -18496,7 +18501,7 @@ package com.mcleodgaming.ssf2.engine
             if ((((((!(STAGEDATA.Paused)) && (m_player_id > 0)) && (!(STAGEDATA.ReplayMode))) && (ModeFeatures.hasFeature(ModeFeatures.ALLOW_REPLAY_RECORD, STAGEDATA.GameRef.GameMode))) && (this.m_human)))
             {
                 STAGEDATA.ReplayDataObj.pushControls(m_player_id, this.m_key.getControlsObject().controls);
-            };
+				};
         }
 
         public function fliplocation(facing:Boolean):void
