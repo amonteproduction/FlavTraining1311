@@ -51,6 +51,8 @@
 
 			m_loadcode = SaveData.LoadCode;
 			m_savecode = SaveData.SaveCode;
+
+
 			m_positionBool = SaveData.PositionBool;
 				
 			buttonsMenu.push(m_trainingHud.createButton("Position Reset ", 1 , m_trainingHud._containerWidth,null,this.position_CLICK, null, [ ((this.m_positionBool == true) ? "ON" : "OFF" )]));

@@ -25,8 +25,8 @@ package com.mcleodgaming.ssf2.util
 
         private static var m_sharedObject:SharedObject;
         private static var m_localObject:Object;
-        private static const m_currentSaveFileName:String = "ssf2_beta_1_3_1.dat";
-        private static const m_previousSaveFileNames:Array = ["ssf2_beta.dat", "ssf2_beta_1_1.dat", "ssf2_beta_1_2.dat", "ssf2_beta_1_2_1.dat", "ssf2_beta_1_2_2.dat", "ssf2_beta_1_2_3.dat", "ssf2_beta_1_2_4.dat", "ssf2_beta_1_2_5.dat", "ssf2_beta_1_3_0.dat"];
+        private static const m_currentSaveFileName:String = "ssf2_beta_1_3_1_training_mod.dat";
+        private static const m_previousSaveFileNames:Array = ["ssf2_beta.dat", "ssf2_beta_1_1.dat", "ssf2_beta_1_2.dat", "ssf2_beta_1_2_1.dat", "ssf2_beta_1_2_2.dat", "ssf2_beta_1_2_3.dat", "ssf2_beta_1_2_4.dat", "ssf2_beta_1_2_5.dat", "ssf2_beta_1_3_0.dat","ssf2_beta_1_3_1.dat"];
         private static const m_saveFileFriendlyNamesList:Array = [{
             "pattern":/^ssf2_beta(?:\.dat)?$/,
             "value":"SSF2 Beta 1.0.*"

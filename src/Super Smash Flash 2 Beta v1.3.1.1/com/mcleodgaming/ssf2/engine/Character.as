@@ -1690,6 +1690,11 @@ package com.mcleodgaming.ssf2.engine
             return (this.m_key);
         }
 
+        public function get PressedControls():ControlsObject
+        {
+            return this.m_pressedControls
+        }
+
         public function get Revival():Boolean
         {
             return (currentFrameIs("revival"));

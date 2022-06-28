@@ -42,6 +42,7 @@
 		public var m_setKey:MovieClip;
 		public static var BETA_ON:Boolean = false;
 		
+		public var savedControls:Array = new Array(); // Move to display page later
 		private var buttonsMenu:Vector.<MovieClip>;
 		private var MapperButtons:Vector.<MenuMapperNode>;
 		private var char_position:Object =  new Object();
@@ -125,7 +126,89 @@
 			Main.Root.stage.addEventListener(Event.ENTER_FRAME, this.manageMenuMappings);
 		}
 
-		
+		public function displayupdate():void
+		{
+			var result:String = "";
+			var ch:* = GameController.stageData.Characters;
+			var StringArray:Array = [];
+			var p1:Object = ch[3].ControlSettings.getControlsObject();
+			//var p1num = ch[3].PressedControls;
+			if (p1.controls != 0 && p1.controls != 8192)
+			{
+				if (savedControls[0] != p1.controls)
+				{
+					savedControls[0] = p1.controls
+					//Directions
+					if (p1.RIGHT)
+					{
+						StringArray.push("►")
+					}
+					if (p1.LEFT)
+					{
+						StringArray.push("◄")
+					}
+					if (p1.DOWN)
+					{
+						StringArray.push("▼")
+					}
+					if (p1.UP)
+					{
+						StringArray.push("▲")
+					}
+					
+					//Buttons
+					if (p1.JUMP)
+					{
+						StringArray.push("[JUMP]")
+					}
+					if (p1.SHIELD)
+					{
+						StringArray.push("[SHIELD]")
+					}
+					if (p1.GRAB)
+					{
+						StringArray.push("[GRAB]")
+					}
+
+
+					//C Stick
+					if (p1.C_DOWN)
+					{
+						StringArray.push("[C DOWN]")
+					}
+					if (p1.C_RIGHT)
+					{
+						StringArray.push("[C RIGHT]")
+					}
+					if (p1.C_UP)
+					{
+						StringArray.push("[C UP]")
+					}
+					if (p1.C_LEFT)
+					{
+						StringArray.push("[C LEFT]")
+					}
+
+					//ATTACKS
+					if (p1.BUTTON1)
+					{
+						StringArray.push("[B]")
+					}
+					if (p1.BUTTON2)
+					{
+						StringArray.push("[A]")
+					}
+					result = StringArray.join(" ")
+
+					trace(result)
+				}
+			}
+			else
+			{
+					savedControls[0] = 0
+			}
+		}
+
 		override public function manageMenuMappings(e:Event):void
         {
             if (((((GameController.stageData) && (GameController.stageData.FreezeKeys)) && (GameController.stageData.GameRef.GameMode == Mode.TRAINING)) && (!(this.m_homeMenuMapper == null)) && (this.m_switchMenu == true) && (this.m_keyblocker == true)))

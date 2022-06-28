@@ -202,7 +202,7 @@ package com.mcleodgaming.ssf2.menus
             this.hideAllButtons();
             this.m_requestToJoinRoomTimeout = new Timer(20000);
             this.m_requestToJoinRoomTimeout.addEventListener(TimerEvent.TIMER, this.onRequestToJoinRoomTimeout);
-            if (Main.DEBUG)
+            if (false)//Main.DEBUG)
             {
                 this.m_udpIPLabel = new TextField();
                 this.m_udpPortLabel = new TextField();

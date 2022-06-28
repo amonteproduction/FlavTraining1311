@@ -3276,6 +3276,7 @@ package com.mcleodgaming.ssf2.engine
                         if (this.GAME.GameMode == Mode.TRAINING)
                         {
                             this.HUD.updateHelpMenu();
+                            this.m_trainingHud.displayupdate();
                         };
                         if (ModeFeatures.hasFeature(ModeFeatures.IS_CUSTOM, this.GAME.GameMode))
                         {
