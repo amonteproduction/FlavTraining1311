@@ -16009,6 +16009,8 @@ package com.mcleodgaming.ssf2.engine
             };
             if(MenuController.debugConsole.ReplayPlayback == true){
 					this.m_key.setControlsObject(new ControlsObject(MenuController.debugConsole.myretrieveControls(2)));
+                    this.updateControlsBuffer();
+                    this.processControlsBuffer();
 					MenuController.debugConsole.mynextControls();
 				};
             this.m_fallthroughTimer.tick();

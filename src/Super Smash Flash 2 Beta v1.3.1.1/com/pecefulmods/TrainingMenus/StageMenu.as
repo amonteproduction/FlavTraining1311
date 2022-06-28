@@ -251,8 +251,9 @@
 						//m_stage.Players[i].CharacterStats.importData(char_position["data" + obj_str]);
 					}
 					 //m_stage.Players[1].setState(char_position.state);
-											MenuController.debugConsole.ControlsCapture = false;
-															MenuController.debugConsole.ReplayPlayback = true;
+					MenuController.debugConsole.ControlsCapture = false;
+					MenuController.debugConsole.ReplayPlayback = true;
+					MenuController.debugConsole.myresetPointers();
 					 MultiplayerManager.notify("Loaded position");
 					MenuController.debugConsole.myresetPointers();
 				};

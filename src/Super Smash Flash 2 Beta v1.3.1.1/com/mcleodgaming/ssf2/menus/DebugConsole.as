@@ -257,7 +257,8 @@ package com.mcleodgaming.ssf2.menus
 		
         public function myretrieveControls(pid:int):int
         {
-												trace(this.m_mycontrolsData);
+												//trace(this.m_mycontrolsData);
+            trace((this.m_mycontrolsData[(pid - 1)][this.m_mycontrolsPointers[(pid - 1)].index]))
             return (this.m_mycontrolsData[(pid - 1)][this.m_mycontrolsPointers[(pid - 1)].index]);
         }		
 
