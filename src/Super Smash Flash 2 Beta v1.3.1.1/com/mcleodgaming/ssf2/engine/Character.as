@@ -8517,7 +8517,7 @@ package com.mcleodgaming.ssf2.engine
                             {
                                 this.m_jumpCount = this.m_characterStats.MaxJump;
                             };
-                            this.Attack("b_forward_air", 2);
+                            this.Attack("b_up_air", 2);
                         }
                         else
                         {
